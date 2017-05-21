@@ -32,6 +32,8 @@ ADD ./php.ini /etc/php.ini
 ADD ./php-fpm.conf /etc/php-fpm.conf
 ADD ./www.conf /etc/php-fpm.d/www.conf
 
+EXPOSE 9000
+
 # docker run -d --rm --name php70-fpm -h php70-fpm local:php70
 # docker run -it --rm --name php70-fpm -h php70-fpm local:php70
 
