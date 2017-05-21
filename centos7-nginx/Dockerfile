@@ -21,6 +21,6 @@ ADD ./nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 EXPOSE 443
 
-# docker run -d --rm --name nginx -h nginx local:nginx
-# docker run -it --rm --name nginx -h nginx local:nginx
+# docker run -d --rm -p 80:80 -p 443:443 --name nginx -h nginx local:nginx
+# docker run -it --rm -p 80:80 -p 443:443 --name nginx -h nginx local:nginx
 CMD ["nginx"]

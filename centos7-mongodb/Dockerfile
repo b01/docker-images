@@ -16,6 +16,6 @@ RUN mkdir -p /data/db
 
 EXPOSE 27017
 
-# docker run -d --rm --name mongodb -h mongodb local:mongodb
-# docker run -it --rm --name mongodb -h mongodb local:mongodb
+# docker run -d --rm -p 27017:27017 --name mongodb -h mongodb local:mongodb
+# docker run -it --rm -p 27017:27017 --name mongodb -h mongodb local:mongodb
 ENTRYPOINT ["/usr/bin/mongod"]
