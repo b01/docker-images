@@ -21,9 +21,6 @@ ADD ./nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 EXPOSE 443
 
-#CMD [ "nginx" ]
-#CMD ["nginx", "-g", "daemon off;"]
-CMD ["/usr/bin/bash", "nginx"]
 # docker run -d --rm --name nginx -h nginx local:nginx
 # docker run -it --rm --name nginx -h nginx local:nginx
-#ENTRYPOINT ["/usr/bin/bash"]
+CMD ["nginx"]

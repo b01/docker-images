@@ -24,13 +24,13 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
 
  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
 
+# Remove the default configuration files.
 RUN rm /etc/php.ini /etc/php-fpm.conf /etc/php-fpm.d/www.conf
 
 # Use custom PHP configs.
 ADD ./php.ini /etc/php.ini
 ADD ./php-fpm.conf /etc/php-fpm.conf
 ADD ./www.conf /etc/php-fpm.d/www.conf
-
 
 # docker run -d --rm --name php70-fpm -h php70-fpm local:php70
 # docker run -it --rm --name php70-fpm -h php70-fpm local:php70
