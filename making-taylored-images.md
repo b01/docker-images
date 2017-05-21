@@ -44,23 +44,20 @@ WORKDIR <directory>
 
 1. Make a new directory and place a new file named **"Dockerfile"** in that directory.
 ```
-some-dir >
+some-dir/
   Dockerfile
 ```
-
-2. Open the Dockerfile for editing. 
-
+2. Open the Dockerfile for editing.
 3. Choose a parent base image, in this example we choose the CentOS as the base:
 ```
 FROM centos:centos7
 ```
-
-3. Run command to install tools the application needs to run, for example, install git so we can clone the application into the image.
+4. Run command to install tools the application needs to run, for example, install git so we can clone the application into the image.
 ```
 RUN yum -y install git
 ```
 
-4. Build the image by opening a terminal/PowerShell/command shell/etc and change to the directory you made. Then run 
+5. Build the image by opening a terminal/PowerShell/command shell/etc and change to the directory you made. Then run 
 ```
 docker build -t <image-name>:<tag> ./
 ```
