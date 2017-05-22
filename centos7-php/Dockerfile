@@ -34,6 +34,6 @@ ADD ./www.conf /etc/php-fpm.d/www.conf
 
 EXPOSE 9000
 
-# docker run -d --rm -p 9000:9000 --name php70-fpm -h php70-fpm local:php70
-# docker run -it --rm -p 9000:9000 --name php70-fpm -h php70-fpm local:php70
+# docker run -d --rm -p 9000:9000 --name php70-fpm -h php70-fpm khalifahks/area51:php70
+# docker run -it --rm -p 9000:9000 --name php70-fpm -h php70-fpm khalifahks/area51:php70
 CMD ["php-fpm", "-F"]

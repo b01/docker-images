@@ -61,3 +61,19 @@ RUN yum -y install git
 ```
 docker build -t <image-name>:<tag> ./
 ```
+
+
+### Orchestrating With Docker Compose
+
+You can use a Docker compose file to build the images and then run the containers needed for setting up an environment.
+
+1. Make a new docker-compose.yml
+
+Compose example:
+```
+version: '3'
+
+```
+
+You should review the [Compose file reference](https://docs.docker.com/compose/compose-file/) for a deeper 
+understanding.

@@ -1,4 +1,4 @@
-FROM local:php70
+FROM khalifahks/area51:php70
 
 RUN yum -y update\
  && yum -y install git\
@@ -12,4 +12,5 @@ WORKDIR app
 
 CMD ['git', '--version']
 
+# docker run -d --rm --name web-app khalifahks/area51:web-app
 ENTRYPOINT ["/usr/bin/bash"]

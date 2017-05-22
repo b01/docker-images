@@ -11,11 +11,11 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
  && yum -y install mongodb-server\
  && yum clean all
 
-# TODO: Map a volume outside this image
+# TODO: Map this to a volume container outside this image
 RUN mkdir -p /data/db
 
 EXPOSE 27017
 
-# docker run -d --rm -p 27017:27017 --name mongodb -h mongodb local:mongodb
-# docker run -it --rm -p 27017:27017 --name mongodb -h mongodb local:mongodb
+# docker run -d --rm -p 27017:27017 --name mongodb -h mongodb khalifahks/area51:mongodb
+# docker run -it --rm -p 27017:27017 --name mongodb -h mongodb khalifahks/area51:mongodb
 ENTRYPOINT ["/usr/bin/mongod"]
