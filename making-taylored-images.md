@@ -33,13 +33,15 @@ A "Dockerfile" is mostly responsible for constructing such an image; which provi
 It's not easy writing a Dockerfile, at first. It can be complicated writing instructions to set up the image for the application. And network configuration can make using Docker seem like a nightmare.
 The upside is that once this is done, you can deploy the application just about anywhere.
 
-Dockerfile template
+### Dockerfile template For an Application
 ```
-FROM <parent-base-image>
+FROM <docker-hub-repo>:<tag>
 
 RUN <command>
 
-WORKDIR <directory>
+WORKDIR <appname>
+
+ENTRYPOINT ["/usr/bin/bash"]
 ```
 
 1. Make a new directory and place a new file named **"Dockerfile"** in that directory.
@@ -56,11 +58,44 @@ FROM centos:centos7
 ```
 RUN yum -y install git
 ```
-
 5. Build the image by opening a terminal/PowerShell/command shell/etc and change to the directory you made. Then run 
 ```
 docker build -t <image-name>:<tag> ./
 ```
+
+### Dockerfile template for a Service 
+ ```
+FROM centos:centos7
+
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm\
+
+ && rpm --import \
+      /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7\
+      /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7\
+
+ && yum -y update\
+ && yum -y install memcached --nogpgcheck\
+ && yum clean all
+
+EXPOSE  11211
+
+# docker run -d --rm -p 11211:11211 --name memcached -h memcached local:memcached
+# docker run -it --rm -p 11211:11211 --name memcached -h memcached local:memcached
+CMD ["memcached", "-u", "daemon"]
+```
+
+### Troubleshoot
+
+* Remove the "ENTRYPOINT" command from the Dockerfile to fix the error:
+```
+/usr/sbin/nginx: /usr/sbin/nginx: cannot execute binary file
+```
+
+* Start your image container in the foreground to verify it runs as expected by using the "-it" option in place of "-d"
+```
+docker run -it --rm <other-options> <image>
+```
+This command is good for test running your image, as it can sometimes show errors when there is a problem.
 
 
 ### Orchestrating With Docker Compose
