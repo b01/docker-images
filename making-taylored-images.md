@@ -112,3 +112,9 @@ version: '3'
 
 You should review the [Compose file reference](https://docs.docker.com/compose/compose-file/) for a deeper 
 understanding.
+
+
+### References
+[Docker Data Volumes](https://docs.docker.com/engine/tutorials/dockervolumes/#data-volumes)
+[Composer File References](https://docs.docker.com/compose/compose-file/)
+[How to Deal with Persistent Storage (eg. databases) in Docker](https://stackoverflow.com/questions/18496940/how-to-deal-with-persistent-storage-e-g-databases-in-docker#)
