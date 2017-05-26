@@ -22,6 +22,11 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     php-pecl-memcached\
     php-pecl-mysql\
 
+    pdo_mysql
+    pdo-dblib\
+    php_libsodium\
+    tidy
+
  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
 
 # Remove the default configuration files.
