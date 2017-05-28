@@ -1,18 +1,24 @@
 FROM centos:centos7
 
-# Install the lates MongoDB server.
-RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm\
+# For details see:
+# https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#install-mongodb-community-edition
+ADD ./mongodb-34-org.repo /etc/yum.repos.d/mongodb-34-org.repo
+
+# Import the GPG key
+# Install MongoDB.
+RUN rpm --import https://www.mongodb.org/static/pgp/server-3.4.asc\
+
+ && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm\
 
  && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7\
       /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7\
 
  && yum -y update\
- && yum -y install mongodb-server\
+ && yum -y install mongodb-org\
  && yum clean all
 
-# TODO: Map this to a volume container outside this image
-RUN mkdir -p /data/db
+ADD ./mongodb-34.conf /etc/mongod.conf
 
 EXPOSE 27017
 
