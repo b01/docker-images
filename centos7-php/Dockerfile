@@ -2,13 +2,16 @@ FROM centos:centos7
 
 # Install the latest PHP packages
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm\
+# We include this to get PHP version 7 since it's not in epel.
     http://rpms.remirepo.net/enterprise/remi-release-7.rpm\
 
+# This will help verify packes and so you will see less errors(red) in the build output.
  && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7\
       /etc/pki/rpm-gpg/RPM-GPG-KEY-remi\
       /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7\
 
+# Spedify which version of PHP 7 to install here
  && yum-config-manager --enable remi,remi-php70\
 
  && yum -y install php php-fpm php-common\
@@ -21,11 +24,9 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     php-bcmath\
     php-pecl-memcached\
     php-pecl-mysql\
-
-    pdo_mysql
-    pdo-dblib\
-    php_libsodium\
-    tidy
+    php-libsodium\
+    php-tidy\
+    php-mssql\
 
  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
 
