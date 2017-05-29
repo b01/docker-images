@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+    memcached:
+        image: 'khalifahks/area51:memcached'
+        networks:
+            - 'phpworks'
+        ports:
+            - '11211:11211'
+
+    stock_mongo:
+        image: 'mongo'
+        networks:
+            - 'phpworks'
+        ports:
+            - '27017:27017'
+        volumes:
+            - "${mongoDbData}:/data/db"
+
+# Apparently there is a lot of custom setup to get Mongo DB to work in a Docker
+# container. So try to use the stock image until fixes/work-a-rounds come
+# about.
+#    mongodb34:
+#        image: 'khalifahks/area51:mongodb'
+#        networks:
+#            - 'phpworks'
+#        ports:
+#            - '27017:27017'
+# Mapping to host volume will not work on Windows or Mac. See details at:
+# https://docs.mongodb.com/manual/administration/production-notes/#fsync-on-directories
+#        volumes:
+#            - "${mongoDbData}:/var/lib/mongo"
+#            - 'C:\OpenSource\docker-mongodb\logs:/var/log/mongodb/'
+    nginx: # to connect use: docker exec -it area51_nginx_1 bash
+        image: 'khalifahks/area51:nginx'
+        depends_on:
+            - 'php_fpm_70'
+        networks:
+            - 'phpworks'
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - "${nginxConfDir}:/etc/nginx/conf.d"
+            - '${appsRoot}:/web-apps'
+
+    php_fpm_70:
+        image: 'khalifahks/area51:php70'
+        networks:
+            phpworks:
+                aliases:
+                    - 'phpfpm70'
+        ports:
+            - '9000:9000'
+        volumes:
+            # The container directory should match the Nginx share dir so that
+            # "root" set in an Nginx configuration server block will work.
+            # So "root" in an Ngixn configuration server block should start
+            # with this as well.
+            - "${appsRoot}:/web-apps"
+
+networks:
+    phpworks:
