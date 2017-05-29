@@ -16,11 +16,12 @@ RUN rm /etc/nginx/nginx.conf
 
 # Add a custom nginx config
 ADD ./nginx.conf /etc/nginx/nginx.conf
+ADD ./fastcgi_params /etc/nginx/fastcgi_params
 
 EXPOSE 80
 EXPOSE 443
 
 # docker run -d --rm -p 80:80 -p 443:443 --name nginx -h nginx khalifahks/area51:nginx
 # docker run -it --rm -p 80:80 -p 443:443 --name nginx -h nginx khalifahks/area51:nginx
-#docker push khalifahks/area51:nginx
+# docker push khalifahks/area51:nginx
 CMD ["nginx"]
