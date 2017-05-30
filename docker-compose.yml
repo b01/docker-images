@@ -16,8 +16,8 @@ services:
             - 'phpworks'
         ports:
             - '27017:27017'
-        volumes:
-            - "${mongoDbData}:/data/db"
+#        volumes:
+#            - "${mongoDbData}:/data/db"
 
 # Apparently there is a lot of custom setup to get Mongo DB to work in a Docker
 # container. So try to use the stock image until fixes/work-a-rounds come
