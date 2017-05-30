@@ -7,4 +7,10 @@ docker build -t khalifahks/area51:php70 ./centos7-php
 <#
 To run this without enable Execution policy:
 powershell -ExecutionPolicy bypass -File .\build-all.ps1
+
+Remove containers
+docker rm area51_nginx_1 area51_stock_mongo_1 area51_memcached_1 area51_php_fpm_70_1
+
+Remove images (make sure you remove any containers that use them.)
+docker rmi khalifahks/area51:nginx khalifahks/area51:php70
 #>
