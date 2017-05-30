@@ -44,7 +44,7 @@ services:
             - '443:443'
         volumes:
             - "${nginxConfDir}:/etc/nginx/conf.d"
-            - '${appsRoot}:/web-apps'
+            - '${appsRoot}:/apps'
 
     php_fpm_70:
         image: 'khalifahks/area51:php70'
@@ -59,12 +59,12 @@ services:
             # "root" set in an Nginx configuration server block will work.
             # So "root" in an Ngixn configuration server block should start
             # with this as well.
-            - "${appsRoot}:/web-apps"
+            - "${appsRoot}:/apps"
 
     # This is the docker container to login to and build your apps.
-    web-apps:
+    apps:
         image: 'khalifahks/area51:apps'
         volumes:
-            - "${appsRoot}:/web-apps"
+            - "${appsRoot}:/apps"
 networks:
     phpworks:
