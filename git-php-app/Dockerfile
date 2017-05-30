@@ -8,7 +8,7 @@ RUN yum -y update\
 
 RUN cd && mkdir app
 
-WORKDIR app
+WORKDIR /web-apps
 
 CMD ['git', '--version']
 

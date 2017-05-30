@@ -61,5 +61,10 @@ services:
             # with this as well.
             - "${appsRoot}:/web-apps"
 
+    # This is the docker container to login to and build your apps.
+    web-apps:
+        image: 'khalifahks/area51:apps'
+        volumes:
+            - "${appsRoot}:/web-apps"
 networks:
     phpworks:
