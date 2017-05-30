@@ -26,5 +26,5 @@ fastcgi_param  REDIRECT_STATUS    200;
 
 # Added for PHP-FPM, needed with Nginx CentOS7 in a Docker container.
 fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
-fastcgi_param  PATH_INFO          $fastcgi_path_info;
-fastcgi_param  PATH_TRANSLATED    $document_root$fastcgi_path_info;
+#fastcgi_param  PATH_INFO          $fastcgi_path_info;
+#fastcgi_param  PATH_TRANSLATED    $document_root$fastcgi_path_info;
