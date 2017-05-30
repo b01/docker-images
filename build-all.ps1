@@ -14,4 +14,10 @@ docker rm area51_nginx_1 area51_stock_mongo_1 area51_memcached_1 area51_php_fpm_
 Remove images (make sure you remove any containers that use them.)
 docker rmi khalifahks/area51:nginx
 docker rmi khalifahks/area51:php70
+
+To publish images
+docker push khalifahks/area51:memcached
+docker push khalifahks/area51:mongodb
+docker push khalifahks/area51:nginx
+docker push khalifahks/area51:php70
 #>
