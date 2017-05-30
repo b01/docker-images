@@ -1,5 +1,7 @@
 version: '3'
 
+# RUn this file with something like:
+# docker-compose --project-name=area51 up --force-recreate --remove-orphans
 services:
     memcached:
         image: 'khalifahks/area51:memcached'
