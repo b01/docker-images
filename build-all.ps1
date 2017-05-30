@@ -12,5 +12,6 @@ Remove containers
 docker rm area51_nginx_1 area51_stock_mongo_1 area51_memcached_1 area51_php_fpm_70_1
 
 Remove images (make sure you remove any containers that use them.)
-docker rmi khalifahks/area51:nginx khalifahks/area51:php70
+docker rmi khalifahks/area51:nginx
+docker rmi khalifahks/area51:php70
 #>
