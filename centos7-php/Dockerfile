@@ -27,6 +27,8 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     php-libsodium\
     php-tidy\
     php-mssql\
+    php-pecl-mongodb\
+    php-pecl-zip\
 
  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
 
