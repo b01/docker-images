@@ -14,4 +14,5 @@ RUN php --version && git --version
 
 # docker run -d --rm --name apps khalifahks/area51:apps
 # docker run -it --rm --name apps khalifahks/area51:apps
+# docker exec -it area51_apps_1 bash
 ENTRYPOINT ["tail", "-f", "/dev/null"]
