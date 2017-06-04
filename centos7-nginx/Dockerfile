@@ -14,13 +14,17 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
 # Don't run Nginx as a daemon. This lets the docker host monitor the process.
 RUN rm /etc/nginx/nginx.conf
 
+EXPOSE 80
+EXPOSE 443
+
 # Add a custom nginx config
 ADD ./nginx.conf /etc/nginx/nginx.conf
 ADD ./fastcgi_params /etc/nginx/fastcgi_params
+ADD ./nginx-start.sh /nginx-start.sh
 
-EXPOSE 80
-EXPOSE 443
+RUN chmod a+x /nginx-start.sh
 
 # docker run -d --rm -p 80:80 -p 443:443 --name nginx -h nginx khalifahks/area51:nginx
 # docker run -it --rm -p 80:80 -p 443:443 --name nginx -h nginx khalifahks/area51:nginx
 ENTRYPOINT ["nginx"]
+#ENTRYPOINT ["./nginx-start.sh"]
