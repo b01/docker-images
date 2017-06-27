@@ -1,7 +1,8 @@
 version: '3'
 
-# RUn this file with something like:
+# Run this file with something like:
 # docker-compose --project-name=area51 up --force-recreate --remove-orphans
+# Take down with: docker-compose --project-name=area51 down
 services:
     memcached:
         image: 'khalifahks/area51:memcached'
@@ -45,6 +46,7 @@ services:
         volumes:
             - "${nginxConfDir}:/etc/nginx/conf.d"
             - '${appsRoot}:/apps'
+            - '${sslCerts}:/ssl-certs'
 
     php_fpm_70:
         image: 'khalifahks/area51:php70'
