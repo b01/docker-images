@@ -1,11 +1,12 @@
 version: '3'
 
 # Run this file with something like:
-# docker-compose --project-name=area51 up --force-recreate --remove-orphans
-# Take down with: docker-compose --project-name=area51 down
+# docker-compose --project-name=cen_tos up --force-recreate --remove-orphans
+# Take down with: docker-compose --project-name=cen_tos down
 services:
     memcached:
-        image: 'khalifahks/area51:memcached'
+        container_name: 'centos-memcached'
+        image: 'khalifahks/centos-memcached'
         networks:
             - 'phpworks'
         ports:
@@ -24,7 +25,8 @@ services:
 # container. So try to use the stock image until fixes/work-a-rounds come
 # about.
 #    mongodb34:
-#        image: 'khalifahks/area51:mongodb'
+#        container_name: 'centos-mongodb'
+#        image: 'khalifahks/centos-mongodb'
 #        networks:
 #            - 'phpworks'
 #        ports:
@@ -34,10 +36,11 @@ services:
 #        volumes:
 #            - "${mongoDbData}:/var/lib/mongo"
 #            - 'C:\OpenSource\docker-mongodb\logs:/var/log/mongodb/'
-    nginx: # to connect use: docker exec -it area51_nginx_1 bash
-        image: 'khalifahks/area51:nginx'
+    nginx: # to connect use: docker exec -it centos-nginx bash
+        container_name: 'centos-nginx'
+        image: 'khalifahks/centos-nginx'
         depends_on:
-            - 'php_fpm_70'
+            - 'centos_php'
         networks:
             - 'phpworks'
         ports:
@@ -48,12 +51,13 @@ services:
             - '${appsRoot}:/apps'
             - '${sslCerts}:/ssl-certs'
 
-    php_fpm_70:
-        image: 'khalifahks/area51:php70'
+    php:
+        container_name: 'centos-php'
+        image: 'khalifahks/centos-php'
         networks:
             phpworks:
                 aliases:
-                    - 'phpfpm70'
+                    - 'centos_php'
         ports:
             - '9000:9000'
         volumes:
@@ -65,7 +69,8 @@ services:
 
     # This is the docker container to login to and build your apps.
     apps:
-        image: 'khalifahks/area51:apps'
+        container_name: 'centos-apps'
+        image: 'khalifahks/centos-apps'
         volumes:
             - "${appsRoot}:/apps"
 networks:

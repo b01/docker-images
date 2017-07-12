@@ -1,4 +1,4 @@
-FROM khalifahks/area51:php70
+FROM khalifahks/centos-php
 
 RUN yum -y update \
  && yum -y install git \
@@ -12,7 +12,7 @@ WORKDIR /apps
 
 RUN php --version && git --version
 
-# docker run -d --rm --name apps khalifahks/area51:apps
-# docker run -it --rm --name apps khalifahks/area51:apps
+# docker run -d --rm --name apps khalifahks/centos-apps
+# docker run -it --rm --name apps khalifahks/centos-apps
 # docker exec -it area51_apps_1 bash
 ENTRYPOINT ["tail", "-f", "/dev/null"]

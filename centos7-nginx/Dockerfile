@@ -24,7 +24,7 @@ ADD ./nginx-start.sh /nginx-start.sh
 
 RUN chmod a+x /nginx-start.sh
 
-# docker run -d --rm -p 80:80 -p 443:443 --name nginx -h nginx khalifahks/area51:nginx
-# docker run -it --rm -p 80:80 -p 443:443 --name nginx -h nginx khalifahks/area51:nginx
+# docker run -d --rm -p 80:80 -p 443:443 --name centos-nginx -h centos_nginx khalifahks/centos-nginx
+# docker run -it --rm -p 80:80 -p 443:443 --name centos-nginx -h centos_nginx khalifahks/centos-nginx
 ENTRYPOINT ["nginx"]
 #ENTRYPOINT ["./nginx-start.sh"]
