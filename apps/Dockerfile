@@ -1,12 +1,12 @@
 FROM khalifahks/area51:php70
 
-RUN yum -y update\
- && yum -y install git\
-    php-pecl-xdebug\
-    nodejs npm\
+RUN yum -y update \
+ && yum -y install git \
+    php-pecl-xdebug \
+    nodejs npm \
  && yum clean all
 
-RUN cd && mkdir app
+RUN cd && mkdir apps
 
 WORKDIR /apps
 

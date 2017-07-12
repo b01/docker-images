@@ -1,14 +1,14 @@
 FROM centos:centos7
 
 # Install latest version of nginx
-RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm\
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
 
  && rpm --import \
-      /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7\
-      /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7\
+      /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
+      /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
 
- && yum -y update\
- && yum -y install nginx\
+ && yum -y update \
+ && yum -y install nginx \
  && yum clean all
 
 # Don't run Nginx as a daemon. This lets the docker host monitor the process.
