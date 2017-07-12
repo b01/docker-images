@@ -21,7 +21,7 @@ RUN rpm --import https://www.mongodb.org/static/pgp/server-3.4.asc \
 ADD ./mongodb-34.conf /etc/mongod.conf
 
 EXPOSE 27017
-
+# docker build -t khalifahks/centos-memcached ./centos7-memcached
 # docker run -d --rm -p 27017:27017 --name centos-mongodb -h centos_mongodb khalifahks/centos-mongodb
 # docker run -it --rm -p 27017:27017 --name centos-mongodb -h centos_mongodb khalifahks/centos-mongodb
 ENTRYPOINT ["/usr/bin/mongod"]

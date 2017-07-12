@@ -3,7 +3,7 @@ FROM centos:centos7
 # Install the latest PHP packages
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
 # We include this to get PHP version 7 since it's not in EPEL.
-    https://repo1.ash.innoscale.net/remi/enterprise/remi-release-7.rpm \
+    https://mirrors.mediatemple.net/remi/enterprise/remi-release-7.rpm \
 # This will help verify packages and reduce errors(red) in the output.
  && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
@@ -43,6 +43,7 @@ ADD ./www.conf /etc/php-fpm.d/www.conf
 
 EXPOSE 9000
 
+# docker build -t khalifahks/centos-php ./centos7-php
 # docker run -d --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 # docker run -it --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 CMD ["php-fpm"]
