@@ -4,7 +4,7 @@ version: '3'
 # docker-compose --project-name=cen_tos up --force-recreate --remove-orphans
 # Take down with: docker-compose --project-name=cen_tos down
 services:
-    memcached:
+    memcached: # to connect use: docker exec -it centos-memcached bash
         container_name: 'centos-memcached'
         image: 'khalifahks/centos-memcached'
         networks:
@@ -12,19 +12,18 @@ services:
         ports:
             - '11211:11211'
 
-    stock_mongo:
+    stock_mongo: # to connect use: docker exec -it mongo bash
+        container_name: 'mongo'
         image: 'mongo'
         networks:
             - 'phpworks'
         ports:
             - '27017:27017'
-#        volumes:
-#            - "${mongoDbData}:/data/db"
 
 # Apparently there is a lot of custom setup to get Mongo DB to work in a Docker
 # container. So try to use the stock image until fixes/work-a-rounds come
 # about.
-#    mongodb34:
+#    mongodb: # to connect use: docker exec -it centos-mongodb bash
 #        container_name: 'centos-mongodb'
 #        image: 'khalifahks/centos-mongodb'
 #        networks:
@@ -36,6 +35,7 @@ services:
 #        volumes:
 #            - "${mongoDbData}:/var/lib/mongo"
 #            - 'C:\OpenSource\docker-mongodb\logs:/var/log/mongodb/'
+
     nginx: # to connect use: docker exec -it centos-nginx bash
         container_name: 'centos-nginx'
         image: 'khalifahks/centos-nginx'
@@ -47,11 +47,11 @@ services:
             - '80:80'
             - '443:443'
         volumes:
-            - "${nginxConfDir}:/etc/nginx/conf.d"
-            - '${appsRoot}:/apps'
+            - "${NGINX_HOSTS_DIR}:/etc/nginx/conf.d"
+            - '${APPS_DIR}:/apps'
             - '${sslCerts}:/ssl-certs'
 
-    php:
+    php: # to connect use: docker exec -it centos-php bash
         container_name: 'centos-php'
         image: 'khalifahks/centos-php'
         networks:
@@ -65,13 +65,13 @@ services:
             # "root" set in an Nginx configuration server block will work.
             # So "root" in an Ngixn configuration server block should start
             # with this as well.
-            - "${appsRoot}:/apps"
+            - "${APPS_DIR}:/apps"
 
     # This is the docker container to login to and build your apps.
-    apps:
+    apps: # to connect use: docker exec -it centos-apps bash
         container_name: 'centos-apps'
         image: 'khalifahks/centos-apps'
         volumes:
-            - "${appsRoot}:/apps"
+            - "${APPS_DIR}:/apps"
 networks:
     phpworks:
