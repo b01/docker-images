@@ -1,6 +1,7 @@
 version: '3'
 
 # Run this file with something like:
+# docker-compose --project-name=cen_tos up --remove-orphans
 # docker-compose --project-name=cen_tos up --force-recreate --remove-orphans
 # Take down with: docker-compose --project-name=cen_tos down
 services:
@@ -40,7 +41,7 @@ services:
         container_name: 'centos-nginx'
         image: 'khalifahks/centos-nginx'
         depends_on:
-            - 'centos_php'
+            - 'php'
         networks:
             - 'phpworks'
         ports:
@@ -49,7 +50,7 @@ services:
         volumes:
             - "${NGINX_HOSTS_DIR}:/etc/nginx/conf.d"
             - '${APPS_DIR}:/apps'
-            - '${sslCerts}:/ssl-certs'
+            - '${SSL_DIR}:/ssl-certs'
 
     php: # to connect use: docker exec -it centos-php bash
         container_name: 'centos-php'
