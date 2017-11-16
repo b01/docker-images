@@ -1,5 +1,5 @@
 #!/bin/bash
-#This Window 10+ script removes and build all images. See NOTES section on how to run.
+#This script removes and build all images. See NOTES section on how to run.
 
 # Remove associated containers.
 docker rm centos-nginx centos-mongodb centos-memcached centos-php

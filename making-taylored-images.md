@@ -1,13 +1,11 @@
-FROM: centos
+# Making A Docker Image Tailored to an Application
 
+There are a ton of Docker images out there on the self that may be a great fit for some applications.
+However, applications are unique and often require you to install dependencies to existing images in order to get your
+application to work. Other times that may have too much and could use some trimming.
 
-# Making A Docker Image Taylored to an Application
-
-There are a ton of Docker images out there on the self and may be a great fit for some applications.
-
-However, applications are unique and there are often images do not have enough to meet its requirements, or a lot more than what is needed.
-
-You only need to make a tailored image when you cannot find an image that meets all the requirements for your application or situation.
+Making your own Docker image allows you to tailor the image so that its just right for your application. However, it
+should be noted tht you only need to make a tailored image when you cannot find an existing image that meets all the requirements for your application or situation.
 
 ## Gather Application Requirements
 You should first evaluate the application and think about how it interacts with its environment. 
@@ -15,10 +13,10 @@ Then document the following:
 
 * Applications and tools used in the en by the application (ex. git for cloning repos).
 * Servers it will connect to and how, such as protocals/port/IPs/etc.
-* Evironment variables and scripts used.
-* Services it will communicate with.
-* Commands that need to be run to start the application (ex. build commands).
-* If any will need to connect to it from the outside world (ex. web browser for a web application).
+* Environment variables and scripts used.
+* Services it will communicate with and how.
+* Commands that need to be run to start the application (ex. build or test commands).
+* How external clients will need to connect to it from the outside world (ex. web browser for a web application).
 
 ## Setup Docker on your System
 
@@ -45,26 +43,31 @@ ENTRYPOINT ["/usr/bin/bash"]
 ```
 
 1. Make a new directory and place a new file named **"Dockerfile"** in that directory.
-```
-some-dir/
-  Dockerfile
-```
+    ```
+    some-dir/
+      Dockerfile
+    ```
 2. Open the Dockerfile for editing.
 3. Choose a parent base image, in this example we choose the CentOS as the base:
-```
-FROM centos:centos7
-```
+    ```
+    FROM centos:centos7
+    ```
 4. Run command to install tools the application needs to run, for example, install git so we can clone the application into the image.
-```
-RUN yum -y install git
-```
+    ```
+    RUN yum -y install git
+    ```
 5. Build the image by opening a terminal/PowerShell/command shell/etc and change to the directory you made. Then run 
-```
-docker build -t <image-name>:<tag> ./
-```
+    ```
+    docker build -t <image-name>:<tag> ./
+    ```
+6. Publish the image to the docker registry (public registry by default) 
+    ```
+    docker push <image-name>:<tag>
+    ```
 
 ### Dockerfile template for a Service 
- ```
+
+```
 FROM centos:centos7
 
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm\
@@ -97,7 +100,6 @@ docker run -it --rm <other-options> <image>
 ```
 This command is good for test running your image, as it can sometimes show errors when there is a problem.
 
-
 ### Orchestrating With Docker Compose
 
 You can use a Docker compose file to build the images and then run the containers needed for setting up an environment.
@@ -112,7 +114,6 @@ version: '3'
 
 You should review the [Compose file reference](https://docs.docker.com/compose/compose-file/) for a deeper 
 understanding.
-
 
 ### References
 [Docker Data Volumes](https://docs.docker.com/engine/tutorials/dockervolumes/#data-volumes)

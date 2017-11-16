@@ -1,5 +1,5 @@
 <#
-This Window 10+ script removes and build all images. See NOTES section on how to run.
+This script removes and build all images. See NOTES section on how to run.
 #>
 
 # Remove associated containers.
