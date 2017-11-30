@@ -44,4 +44,5 @@ EXPOSE 9000
 # docker build -t khalifahks/centos-php ./centos7-php
 # docker run -d --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 # docker run -it --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
+# docker exec -it centos-php bash
 CMD ["php-fpm"]
