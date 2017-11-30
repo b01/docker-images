@@ -5,10 +5,10 @@
 # generateSelfSignedCert
 # (c) 2014 Sam Caldwell. Public Domain
 #
-KEYFILE=/etc/ssl/private/selfsigned.key
-CSRFILE=/etc/ssl/selfsigned.csr
-CRTFILE=/etc/ssl/certs/selfsigned.crt
-SUBJ="/C=US/ST=MI/L=Detroit/O=Team Ultra/OU=Public Domain/CN=localhost"
+KEYFILE=/etc/ssl/private/nginx-selfsigned.key
+CSRFILE=/etc/ssl/nginx-selfsigned.csr
+CRTFILE=/etc/ssl/certs/nginx-selfsigned.crt
+SUBJ="/C=US/ST=Michigan/L=Detroit/O=Quicken Loans/OU=Team Ultra/CN=wen_nginx"
 
 mkdir -p /etc/ssl/private/ /etc/ssl/certs/
 
