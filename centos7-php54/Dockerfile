@@ -38,11 +38,13 @@ RUN rm /etc/php.ini /etc/php-fpm.conf /etc/php-fpm.d/www.conf
 ADD ./php.ini /etc/php.ini
 ADD ./php-fpm.conf /etc/php-fpm.conf
 ADD ./www.conf /etc/php-fpm.d/www.conf
+ADD ./docker.conf /etc/php-fpm.d/docker.conf
+ADD ./zz-docker.conf /etc/php-fpm.d/zz-docker.conf
 
-EXPOSE 9000
+EXPOSE 9054
 
-# docker build -t khalifahks/centos-php ./centos7-php54
-# docker run -d --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
-# docker run -it --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
+# docker build --rm --no-cache -t khalifahks/centos-php:54 ./centos7-php54
+# docker run -d --rm -p 9000:9000 --name centos-php54 -h centos_php khalifahks/centos-php54
+# docker run -it --rm -p 9000:9000 --name centos-php54 -h centos_php khalifahks/centos-php54
 # docker exec -it centos-php54 bash
 CMD ["php-fpm"]
