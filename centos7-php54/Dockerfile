@@ -1,9 +1,9 @@
 FROM centos:centos7
 
-# Install the latest PHP packages
-# We include the REMI RPM to get the latest PHP version.
-# Then we add the GPG keys to help verify packages and reduce errors(red) in the output.
-# Next we specify which version of PHP 5.4 to install.
+# 1. Include the REMI RPM to get the latest PHP version.
+# 2. Then we add the GPG keys to help verify packages and reduce errors(red) in the output.
+# 3. Next we specify which version of PHP to install.
+# 4. Install the PHP packages.
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     https://mirrors.mediatemple.net/remi/enterprise/remi-release-7.rpm \
  && rpm --import \
@@ -24,7 +24,6 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     php-pdo-dblib \
     php-pecl-libsodium \
     php-pecl-memcached \
-    php-pecl-mongodb \
     php-pecl-mysql \
     php-pecl-zip \
     php-tidy \
