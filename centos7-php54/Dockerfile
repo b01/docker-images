@@ -19,7 +19,8 @@ RUN yum -y install https://mirrors.mediatemple.net/remi/enterprise/remi-release-
  && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-remi \
  && yum -y update \
- && yum clean all
+ && yum clean all \
+ && rm -rf /var/cache/yum
 
 # Specify which version of PHP to install.
 # Update the system
@@ -37,11 +38,13 @@ RUN yum-config-manager --enable remi,remi-php54 \
     php-fpm \
     php-mbstring \
     php-mcrypt \
+    php-mssql \
+    php-mysql \
     php-pdo \
-    php-pdo-dblib \
+    php-pdo_dblib \
+    php-pecl-http \
     php-pecl-libsodium \
     php-pecl-memcached \
-    php-pecl-mysql \
     php-pecl-zip \
     php-tidy \
     php-xml \

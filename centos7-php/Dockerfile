@@ -37,12 +37,12 @@ RUN yum-config-manager --enable remi,remi-php71 \
     php-fpm \
     php-mbstring \
     php-mcrypt \
+    php-mysql \
     php-pdo \
-    php-pdo-dblib \
+    php-pdo_dblib \
     php-pecl-libsodium \
     php-pecl-memcached \
     php-pecl-mongodb \
-    php-pecl-mysql \
     php-pecl-zip \
     php-tidy \
     php-xml \
