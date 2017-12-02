@@ -19,7 +19,8 @@ RUN yum -y install https://mirrors.mediatemple.net/remi/enterprise/remi-release-
  && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-remi \
  && yum -y update \
- && yum clean all
+ && yum clean all \
+ && rm -rf /var/cache/yum
 
 # Specify which version of PHP to install.
 # Update the system.
