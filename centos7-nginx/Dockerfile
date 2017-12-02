@@ -25,9 +25,9 @@ ADD ./fastcgi_params /etc/nginx/fastcgi_params
 ADD ./generate-self-signed-cert.sh /generate-self-signed-cert.sh
 ADD ./start-nginx.sh /bin/start-nginx.sh
 
-RUN chmod a+x /generate-self-signed-cert.sh \
- && chmod a+x /bin/start-nginx.sh \
- && ./generate-self-signed-cert.sh
+RUN chmod a+x /generate-self-signed-cert.sh
+RUN chmod a+x /bin/start-nginx.sh
+RUN ./generate-self-signed-cert.sh
 
 EXPOSE 80
 EXPOSE 443
