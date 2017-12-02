@@ -1,16 +1,33 @@
 FROM centos:centos7
 
-# Install the latest PHP packages
-# We include the REMI RPM to get the latest PHP version.
-# Then we add the GPG keys to help verify packages and reduce errors(red) in the output.
-# Next we specify which version of PHP 7 to install.
+# Install the latest EPEL release RPM.
+# Then add the GPG keys to help verify packages and reduce errors(red) in the output.
+# Update the system
+# Perform clean-up
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-    https://mirrors.mediatemple.net/remi/enterprise/remi-release-7.rpm \
  && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
+ && yum -y update \
+ && yum clean all
+
+# Include the REMI release RPM to get the latest PHP version.
+# Then add the GPG keys to help verify packages and reduce errors(red) in the output.
+# Update the system
+# Perform clean-up
+RUN yum -y install https://mirrors.mediatemple.net/remi/enterprise/remi-release-7.rpm \
+ && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-remi \
- && yum-config-manager --enable remi,remi-php71 \
+ && yum -y update \
+ && yum clean all
+
+# Specify which version of PHP to install.
+# Update the system
+# Install the PHP packages.
+# Perform clean-up
+# Downloand PHP composer
+# Remove the default PHP configurations.
+RUN yum-config-manager --enable remi,remi-php71 \
  && yum -y update \
  && yum -y install php \
     php-bcmath \
@@ -44,7 +61,9 @@ ADD ./zz-docker.conf /etc/php-fpm.d/zz-docker.conf
 EXPOSE 9000
 
 # docker build --rm --no-cache -t khalifahks/centos-php ./centos7-php
+# docker build --rm -t khalifahks/centos-php ./centos7-php
 # docker run -d --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 # docker run -it --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 # docker exec -it centos-php bash
+# TODO: See if we can run PHP-FPM in the background and then tail the error log to keep the system runing.
 CMD ["php-fpm"]
