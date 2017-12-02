@@ -24,9 +24,9 @@ RUN yum -y install https://mirrors.mediatemple.net/remi/enterprise/remi-release-
 # Specify which version of PHP to install.
 # Update the system
 # Install the PHP packages.
-# Perform clean-up
-# Downloand PHP composer
-# Remove the default PHP configurations.
+# Perform clean-up.
+# Downloand PHP composer.
+# Move the default configuration files out of the way.
 RUN yum-config-manager --enable remi,remi-php54 \
  && yum -y update \
  && yum -y install php \
@@ -46,20 +46,15 @@ RUN yum-config-manager --enable remi,remi-php54 \
     php-tidy \
     php-xml \
  && yum clean all \
- && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
-
-# Remove the default configuration files.
-#RUN rm /etc/php.ini /etc/php-fpm.conf /etc/php-fpm.d/www.conf
-RUN mv /etc/php.ini /etc/php.txt
-RUN mv /etc/php-fpm.conf /etc/php-fpm.txt
-RUN mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.txt
+ && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
+ && mv /etc/php.ini /etc/php.txt \
+ && mv /etc/php-fpm.conf /etc/php-fpm.txt \
+ && mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.txt
 
 # Use custom PHP configs.
 ADD ./php.ini /etc/php.ini
 ADD ./php-fpm.conf /etc/php-fpm.conf
 ADD ./www.conf /etc/php-fpm.d/www.conf
-ADD ./docker.conf /etc/php-fpm.d/docker.conf
-ADD ./zz-docker.conf /etc/php-fpm.d/zz-docker.conf
 
 EXPOSE 9000
 
@@ -68,5 +63,4 @@ EXPOSE 9000
 # docker run -d --rm -p 9000:9000 --name centos-php54 -h centos_php54 khalifahks/centos-php:54
 # docker run -it --rm -p 9000:9000 --name centos-php54 -h centos_php54 khalifahks/centos-php:54
 # docker exec -it centos-php54 bash
-# TODO: See if we can run PHP-FPM in the background and then tail the error log to keep the system runing.
-CMD ["php-fpm"]
+ENTRYPOINT ["php-fpm"]

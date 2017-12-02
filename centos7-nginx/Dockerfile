@@ -2,8 +2,8 @@ FROM centos:centos7
 
 # Install the latest EPEL release RPM.
 # Then add the GPG keys to help verify packages and reduce errors(red) in the output.
-# Update the system
-# Perform clean-up
+# Update the system.
+# Perform clean-up.
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
  && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
@@ -11,18 +11,22 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
  && yum -y update \
  && yum clean all
 
-# Install latest version of nginx
+# Install Nginx.
+# Perform clean-up.
+# Move default configuration out of the way.
 RUN yum -y update \
  && yum -y install nginx \
  && yum clean all \
- && rm /etc/nginx/nginx.conf
+ && mv /etc/nginx/nginx.conf /etc/nginx/nginx.txt
 
 # Add a custom nginx config
 ADD ./nginx.conf /etc/nginx/nginx.conf
 ADD ./fastcgi_params /etc/nginx/fastcgi_params
 ADD ./generate-self-signed-cert.sh /generate-self-signed-cert.sh
+ADD ./start-nginx.sh /bin/start-nginx.sh
 
 RUN chmod a+x /generate-self-signed-cert.sh \
+ && chmod a+x /bin/start-nginx.sh \
  && ./generate-self-signed-cert.sh
 
 EXPOSE 80
@@ -33,5 +37,4 @@ EXPOSE 443
 # docker run -d --rm -p 80:80 -p 443:443 --name centos-nginx -h centos_nginx khalifahks/centos-nginx
 # docker run -it --rm -p 80:80 -p 443:443 --name centos-nginx -h centos_nginx khalifahks/centos-nginx
 # docker exec -it centos-nginx bash
-# TODO: See if we can run Nginx in the background and then tail the error log to keep the system runing.
-ENTRYPOINT ["nginx"]
+ENTRYPOINT ["start-nginx.sh"]

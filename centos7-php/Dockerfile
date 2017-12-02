@@ -2,8 +2,8 @@ FROM centos:centos7
 
 # Install the latest EPEL release RPM.
 # Then add the GPG keys to help verify packages and reduce errors(red) in the output.
-# Update the system
-# Perform clean-up
+# Update the system.
+# Perform clean-up.
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
  && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
@@ -13,8 +13,8 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
 
 # Include the REMI release RPM to get the latest PHP version.
 # Then add the GPG keys to help verify packages and reduce errors(red) in the output.
-# Update the system
-# Perform clean-up
+# Update the system.
+# Perform clean-up.
 RUN yum -y install https://mirrors.mediatemple.net/remi/enterprise/remi-release-7.rpm \
  && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-remi \
@@ -22,11 +22,11 @@ RUN yum -y install https://mirrors.mediatemple.net/remi/enterprise/remi-release-
  && yum clean all
 
 # Specify which version of PHP to install.
-# Update the system
+# Update the system.
 # Install the PHP packages.
-# Perform clean-up
-# Downloand PHP composer
-# Remove the default PHP configurations.
+# Perform clean-up.
+# Downloand PHP composer.
+# Move the default configuration files out of the way.
 RUN yum-config-manager --enable remi,remi-php71 \
  && yum -y update \
  && yum -y install php \
@@ -46,17 +46,15 @@ RUN yum-config-manager --enable remi,remi-php71 \
     php-pecl-zip \
     php-tidy \
     php-xml \
- && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
-
-# Remove the default configuration files.
-RUN rm /etc/php.ini /etc/php-fpm.conf /etc/php-fpm.d/www.conf
+ && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
+ && mv /etc/php.ini /etc/php.txt \
+ && mv /etc/php-fpm.conf /etc/php-fpm.txt \
+ && mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.txt
 
 # Use custom PHP configs.
 ADD ./php.ini /etc/php.ini
 ADD ./php-fpm.conf /etc/php-fpm.conf
 ADD ./www.conf /etc/php-fpm.d/www.conf
-ADD ./docker.conf /etc/php-fpm.d/docker.conf
-ADD ./zz-docker.conf /etc/php-fpm.d/zz-docker.conf
 
 EXPOSE 9000
 
@@ -65,5 +63,4 @@ EXPOSE 9000
 # docker run -d --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 # docker run -it --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 # docker exec -it centos-php bash
-# TODO: See if we can run PHP-FPM in the background and then tail the error log to keep the system runing.
-CMD ["php-fpm"]
+ENTRYPOINT ["php-fpm"]
