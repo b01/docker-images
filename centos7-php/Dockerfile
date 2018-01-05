@@ -31,6 +31,7 @@ RUN yum -y install https://mirrors.mediatemple.net/remi/enterprise/remi-release-
 RUN yum-config-manager --enable remi,remi-php71 \
  && yum -y update \
  && yum -y install php \
+    php-apcu \
     php-bcmath \
     php-cli \
     php-common \
