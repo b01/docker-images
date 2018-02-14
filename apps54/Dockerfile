@@ -1,4 +1,4 @@
-FROM khalifahks/centos-php
+FROM khalifahks/centos-php54
 
 # Install yarn RPMs and GPG keys
 RUN curl -sS https://dl.yarnpkg.com/rpm/yarn.repo >> /etc/yum.repos.d/yarn.repo \
@@ -19,8 +19,8 @@ WORKDIR apps
 
 RUN php --version && git --version && pwd
 
-# docker build -t khalifahks/centos-apps ./apps
-# docker run -d --rm --name apps khalifahks/centos-apps
-# docker run -it --rm --name apps khalifahks/centos-apps
-# docker exec -it centos-apps bash
+# docker build -t khalifahks/centos-apps54 ./apps54
+# docker run -d --rm --name apps khalifahks/centos-apps54
+# docker run -it --rm --name apps khalifahks/centos-apps54
+# docker exec -it centos-apps54 bash
 ENTRYPOINT ["tail", "-f", "/dev/null"]
