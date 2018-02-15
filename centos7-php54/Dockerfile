@@ -54,6 +54,9 @@ RUN yum-config-manager --enable remi,remi-php54 \
  && mv /etc/php-fpm.conf /etc/php-fpm.txt \
  && mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.txt
 
+# Make sure the pecl_http lib get loaded with php.
+RUN echo "extension=/opt/remi/php54/root/usr/lib64/php/modules/http.so" > /etc/php.d/http.ini
+
 # Use custom PHP configs.
 ADD ./php.ini /etc/php.ini
 ADD ./php-fpm.conf /etc/php-fpm.conf

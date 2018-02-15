@@ -19,7 +19,7 @@ WORKDIR apps
 
 RUN php --version && git --version && pwd
 
-# docker build -t khalifahks/centos-apps ./apps
+# docker build --rm --no-cache -t khalifahks/centos-apps ./apps
 # docker run -d --rm --name centos-apps khalifahks/centos-apps
 # docker run -it --rm --name centos-apps khalifahks/centos-apps
 # docker exec -it centos-apps bash
