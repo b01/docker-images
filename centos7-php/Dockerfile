@@ -15,7 +15,7 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
 # Then add the GPG keys to help verify packages and reduce errors(red) in the output.
 # Update the system.
 # Perform clean-up.
-RUN yum -y install https://mirrors.mediatemple.net/remi/enterprise/remi-release-7.rpm \
+RUN yum -y install http://rpms.famillecollet.com/enterprise/remi-release-7.rpm \
  && rpm --import \
       /etc/pki/rpm-gpg/RPM-GPG-KEY-remi \
  && yum -y update \
