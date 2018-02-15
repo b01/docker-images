@@ -42,7 +42,7 @@ RUN yum-config-manager --enable remi,remi-php54 \
     php-mysql \
     php-pdo \
     php-pdo_dblib \
-    php-pecl-http \
+    php54-php-pecl-http1 \
     php-pecl-libsodium \
     php-pecl-memcached \
     php-pecl-zip \
