@@ -11,6 +11,7 @@ RUN yum -y update \
     nodejs \
     yarn \
     firefox \
+    java-1.8.0-openjdk \
  && yum clean all
 
 RUN cd && mkdir -p apps
