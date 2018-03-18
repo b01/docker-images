@@ -5,3 +5,4 @@
 # Files
 # -----
 .env
+/docker-images.code-workspace

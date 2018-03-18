@@ -24,4 +24,5 @@ RUN php --version && git --version && pwd
 # docker run -d --rm --name centos-apps khalifahks/centos-apps
 # docker run -it --rm --name centos-apps khalifahks/centos-apps
 # docker exec -it centos-apps bash
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["php-fpm"]
