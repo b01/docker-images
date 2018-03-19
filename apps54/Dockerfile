@@ -12,13 +12,11 @@ RUN yum -y update \
     yarn \
     firefox \
     java-1.8.0-openjdk \
- && yum clean all
+ && yum clean all \
+ && rm -rf var/yum/cache \
+ && mkdir -p code
 
-RUN cd && mkdir -p apps
-
-WORKDIR apps
-
-RUN php --version && git --version && pwd
+WORKDIR code
 
 # docker build --rm --no-cache -t khalifahks/centos-apps:54 ./apps54
 # docker run -d --rm --name centos-apps54 khalifahks/centos-apps:54

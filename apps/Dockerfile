@@ -12,17 +12,17 @@ RUN yum -y update \
     yarn \
     firefox \
     java-1.8.0-openjdk \
- && yum clean all
+ && yum clean all \
+ && rm -rf /var/cache/yum \
+ && mkdir -p code
 
-RUN cd && mkdir -p apps
-
-WORKDIR apps
-
-RUN php --version && git --version && pwd
+WORKDIR code
 
 # docker build --rm --no-cache -t khalifahks/centos-apps ./apps
+# docker build --rm -t khalifahks/centos-apps ./apps
 # docker run -d --rm --name centos-apps khalifahks/centos-apps
 # docker run -it --rm --name centos-apps khalifahks/centos-apps
+# docker run --rm --name centos-apps khalifahks/centos-apps
 # docker exec -it centos-apps bash
 #ENTRYPOINT ["tail", "-f", "/dev/null"]
 ENTRYPOINT ["php-fpm"]

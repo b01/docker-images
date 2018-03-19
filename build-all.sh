@@ -5,7 +5,7 @@
 docker rm centos-nginx centos-mongodb centos-memcached centos-php
 
 # Remove any orphaned images.
-docker image prune -a
+docker rmi centos-nginx centos-mongodb centos-memcached centos-php
 
 # Build all the images. The order matters.
 printf "\n\nBuilding memcached\n";

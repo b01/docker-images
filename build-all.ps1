@@ -6,7 +6,7 @@ This script removes and build all images. See NOTES section on how to run.
 docker rm centos-nginx centos-mongodb centos-memcached centos-php
 
 # Remove any orphaned images.
-docker image prune -a
+docker rmi centos-nginx centos-mongodb centos-memcached centos-php
 
 # Build all the images. The order matters.
 docker build -t khalifahks/centos-memcached ./centos7-memcached

@@ -51,7 +51,8 @@ RUN yum-config-manager --enable remi,remi-php71 \
  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
  && mv /etc/php.ini /etc/php.txt \
  && mv /etc/php-fpm.conf /etc/php-fpm.txt \
- && mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.txt
+ && mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.txt \
+ && rm -rf /var/cache/yum
 
 # Use custom PHP configs.
 ADD ./php.ini /etc/php.ini
