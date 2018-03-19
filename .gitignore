@@ -4,4 +4,4 @@
 
 # Files
 # -----
-/docker-images.code-workspace
+*.code-workspace
