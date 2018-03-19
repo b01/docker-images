@@ -19,8 +19,10 @@ RUN yum -y update \
 WORKDIR code
 
 # docker build --rm --no-cache -t khalifahks/centos-apps:54 ./apps54
+# docker build --rm -t khalifahks/centos-apps:54 ./apps54
 # docker run -d --rm --name centos-apps54 khalifahks/centos-apps:54
 # docker run -it --rm --name centos-apps54 khalifahks/centos-apps:54
+# docker run --rm --name centos-apps54 khalifahks/centos-apps:54
 # docker exec -it centos-apps54 bash
 #ENTRYPOINT ["tail", "-f", "/dev/null"]
 ENTRYPOINT ["php-fpm"]

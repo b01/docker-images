@@ -28,6 +28,7 @@ RUN yum -y install http://rpms.famillecollet.com/enterprise/remi-release-7.rpm \
 # Perform clean-up.
 # Downloand PHP composer.
 # Move the default configuration files out of the way.
+# Make sure the pecl_http lib get loaded with php.
 RUN yum-config-manager --enable remi,remi-php54 \
  && yum -y update \
  && yum -y install php \
@@ -52,10 +53,8 @@ RUN yum-config-manager --enable remi,remi-php54 \
  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
  && mv /etc/php.ini /etc/php.txt \
  && mv /etc/php-fpm.conf /etc/php-fpm.txt \
- && mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.txt
-
-# Make sure the pecl_http lib get loaded with php.
-RUN echo "extension=/opt/remi/php54/root/usr/lib64/php/modules/http.so" > /etc/php.d/http.ini
+ && mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.txt \
+ && echo "extension=/opt/remi/php54/root/usr/lib64/php/modules/http.so" > /etc/php.d/http.ini
 
 # Use custom PHP configs.
 ADD ./php.ini /etc/php.ini
@@ -68,5 +67,6 @@ EXPOSE 9000
 # docker build --rm -t khalifahks/centos-php:54 ./centos7-php54
 # docker run -d --rm -p 9000:9000 --name centos-php54 -h centos_php54 khalifahks/centos-php:54
 # docker run -it --rm -p 9000:9000 --name centos-php54 -h centos_php54 khalifahks/centos-php:54
+# docker run --rm -p 9000:9000 --name centos-php54 -h centos_php54 khalifahks/centos-php:54
 # docker exec -it centos-php54 bash
 ENTRYPOINT ["php-fpm"]
