@@ -13,14 +13,6 @@ services:
         ports:
             - '11211:11211'
 
-    stock_mongo: # to connect use: docker exec -it mongo bash
-        container_name: 'mongo'
-        image: 'mongo'
-        networks:
-            - 'phpworks'
-        ports:
-            - '27017:27017'
-
 # Apparently there is a lot of custom setup to get Mongo DB to work in a Docker
 # container. So try to use the stock image until fixes/work-a-rounds come
 # about.
@@ -40,8 +32,6 @@ services:
     nginx: # to connect use: docker exec -it centos-nginx bash
         container_name: 'centos-nginx'
         image: 'khalifahks/centos-nginx'
-        depends_on:
-            - 'php'
         networks:
             - 'phpworks'
         ports:
@@ -49,30 +39,21 @@ services:
             - '443:443'
         volumes:
             - "${NGINX_HOSTS_DIR}:/etc/nginx/conf.d"
-            - '${APPS_DIR}:/apps'
-            - '${SSL_DIR}:/ssl-certs'
-
-    php: # to connect use: docker exec -it centos-php bash
-        container_name: 'centos-php'
-        image: 'khalifahks/centos-php'
-        networks:
-            phpworks:
-                aliases:
-                    - 'centos_php'
-        ports:
-            - '9000:9000'
-        volumes:
-            # The container directory should match the Nginx share dir so that
-            # "root" set in an Nginx configuration server block will work.
-            # So "root" in an Ngixn configuration server block should start
-            # with this as well.
-            - "${APPS_DIR}:/apps"
+            - '${APPS_DIR}:${DOCKER_APPS_DIR}'
 
     # This is the docker container to login to and build your apps.
     apps: # to connect use: docker exec -it centos-apps bash
         container_name: 'centos-apps'
         image: 'khalifahks/centos-apps'
+        depends_on:
+            - 'nginx'
+        networks:
+            phpworks:
+                aliases:
+                    - 'centos_apps'
+        ports:
+            - '9000:9000'
         volumes:
-            - "${APPS_DIR}:/apps"
+            - "${APPS_DIR}:${DOCKER_APPS_DIR}"
 networks:
     phpworks:
