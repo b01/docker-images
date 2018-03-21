@@ -45,8 +45,10 @@ RUN yum-config-manager --enable remi,remi-php54 \
     php-pdo_dblib \
     php54-php-pecl-http1 \
     php-pecl-libsodium \
+    php-pecl-memcache \
     php-pecl-memcached \
     php-pecl-zip \
+    php-soap \
     php-tidy \
     php-xml \
  && yum clean all \
