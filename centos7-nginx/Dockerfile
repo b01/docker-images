@@ -23,9 +23,11 @@ RUN yum -y update \
 ADD ./nginx.conf /etc/nginx/nginx.conf
 ADD ./fastcgi_params /etc/nginx/fastcgi_params
 ADD ./generate-self-signed-cert.sh /generate-self-signed-cert.sh
+ADD ./generate-named-ssl-cert.sh /generate-named-ssl-cert.sh
 ADD ./start-nginx.sh /bin/start-nginx.sh
 
 RUN chmod a+x /generate-self-signed-cert.sh
+RUN chmod a+x /generate-named-ssl-cert.sh
 RUN chmod a+x /bin/start-nginx.sh
 RUN ./generate-self-signed-cert.sh
 
