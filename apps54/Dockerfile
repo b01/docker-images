@@ -28,4 +28,5 @@ WORKDIR code
 # docker run --rm --name centos-apps54 khalifahks/centos-apps:54
 # docker exec -it centos-apps54 bash
 #ENTRYPOINT ["tail", "-f", "/dev/null"]
-ENTRYPOINT ["php-fpm"]
+#ENTRYPOINT ["php-fpm"]
+ENTRYPOINT ["start-php-fpm.sh"]

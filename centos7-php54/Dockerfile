@@ -62,6 +62,9 @@ RUN yum-config-manager --enable remi,remi-php54 \
 ADD ./php.ini /etc/php.ini
 ADD ./php-fpm.conf /etc/php-fpm.conf
 ADD ./www.conf /etc/php-fpm.d/www.conf
+ADD ./start-php-fpm.sh /bin/start-php-fpm.sh
+
+RUN chmod a+x /bin/start-php-fpm.sh
 
 EXPOSE 9000
 
@@ -71,4 +74,4 @@ EXPOSE 9000
 # docker run -it --rm -p 9000:9000 --name centos-php54 -h centos_php54 khalifahks/centos-php:54
 # docker run --rm -p 9000:9000 --name centos-php54 -h centos_php54 khalifahks/centos-php:54
 # docker exec -it centos-php54 bash
-ENTRYPOINT ["php-fpm"]
+ENTRYPOINT ["start-php-fpm.sh"]
