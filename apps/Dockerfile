@@ -3,7 +3,10 @@ FROM khalifahks/centos-php
 # Install yarn RPMs and GPG keys
 RUN curl -sS https://dl.yarnpkg.com/rpm/yarn.repo >> /etc/yum.repos.d/yarn.repo \
  && curl -sS https://dl.yarnpkg.com/rpm/pubkey.gpg >> /etc/pki/rpm-gpg/RPM-GPG-KEY-yarn \
- && rpm --import etc/pki/rpm-gpg/RPM-GPG-KEY-yarn
+ && rpm --import etc/pki/rpm-gpg/RPM-GPG-KEY-yarn \
+ && echo "sslverify=false" >> /etc/yum.conf \
+ && curl -sSk https://rpm.nodesource.com/pub_9.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm >> ./nodesource-release-el7-1.noarch.rpm \
+ && yum -y install --nogpgcheck ./nodesource-release-el7-1.noarch.rpm
 
 RUN yum -y update \
  && yum -y install git \
