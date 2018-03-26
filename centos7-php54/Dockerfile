@@ -67,6 +67,7 @@ ADD ./start-php-fpm.sh /bin/start-php-fpm.sh
 RUN chmod a+x /bin/start-php-fpm.sh
 
 EXPOSE 9000
+EXPOSE 10000
 
 # docker build --rm --no-cache -t khalifahks/centos-php:54 ./centos7-php54
 # docker build --rm -t khalifahks/centos-php:54 ./centos7-php54

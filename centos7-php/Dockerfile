@@ -63,10 +63,13 @@ ADD ./start-php-fpm.sh /bin/start-php-fpm.sh
 RUN chmod a+x /bin/start-php-fpm.sh
 
 EXPOSE 9000
+EXPOSE 10000
 
 # docker build --rm --no-cache -t khalifahks/centos-php ./centos7-php
 # docker build --rm -t khalifahks/centos-php ./centos7-php
 # docker run -d --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 # docker run -it --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 # docker exec -it centos-php bash
+# cp from docker
+# docker cp centos-apps:/etc/php.d/15-xdebug.ini ./centos7-php/
 ENTRYPOINT ["start-php-fpm.sh"]
