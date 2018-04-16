@@ -15,6 +15,7 @@ RUN yum -y update \
     yarn \
     firefox \
     java-1.8.0-openjdk \
+    libsass \
  && yum clean all \
  && rm -rf /var/cache/yum \
  && mkdir -p code
