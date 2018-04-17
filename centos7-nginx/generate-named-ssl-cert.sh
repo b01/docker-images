@@ -10,7 +10,7 @@ if [ -z "${1}" ]; then
    printf "\nPlease enter the full domain name.\n"
 fi
 
-CERT_DIR="/etc/ssl"
+CERT_DIR="/etc/ssl/nginx"
 KEYFILE="${CERT_DIR}/${1}.key"
 CSRFILE="${CERT_DIR}/${1}.csr"
 CRTFILE="${CERT_DIR}/${1}.crt"
