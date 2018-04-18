@@ -15,10 +15,17 @@ RUN yum -y update \
     yarn \
     firefox \
     java-1.8.0-openjdk \
-    libsass \
+    make \
+    gcc-c++ \
  && yum clean all \
  && rm -rf /var/cache/yum \
  && mkdir -p code
+
+ADD ./rebased-check.sh /bin/rebased-check.sh
+
+RUN echo "export CLICOLOR=1" >> /root/.bashrc \
+ && echo 'export GREP_OPTIONS="--color=auto --exclude-dir=.git --exclude-dir=.idea"' >> /root/.bashrc \
+ && chmod a+x /bin/rebased-check.sh
 
 WORKDIR code
 
