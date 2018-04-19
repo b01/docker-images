@@ -18,7 +18,7 @@ RUN yum -y update \
     make \
     gcc-c++ \
  && yum clean all \
- && rm -rf var/yum/cache \
+ && rm -rf /var/cache/yum \
  && mkdir -p code
 
 ADD ./rebased-check.sh /bin/rebased-check.sh
