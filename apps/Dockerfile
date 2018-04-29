@@ -29,12 +29,10 @@ RUN echo "export CLICOLOR=1" >> /root/.bashrc \
 
 WORKDIR code
 
-# docker build --rm --no-cache -t khalifahks/centos-apps ./apps
 # docker build --rm -t khalifahks/centos-apps ./apps
 # docker run -d --rm --name centos-apps khalifahks/centos-apps
 # docker run -it --rm --name centos-apps khalifahks/centos-apps
 # docker run --rm --name centos-apps khalifahks/centos-apps
 # docker exec -it centos-apps bash
-#ENTRYPOINT ["php-fpm"]
 # Start PHP-FPM server and tail the logs.
 ENTRYPOINT ["start-php-fpm.sh"]

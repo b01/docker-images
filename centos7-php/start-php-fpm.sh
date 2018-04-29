@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+mkdir -p /run/php-fpm
+
 php-fpm -D
 
 touch /var/log/php-fpm.log
