@@ -34,5 +34,5 @@ WORKDIR code
 # docker run -it --rm --name centos-apps khalifahks/centos-apps
 # docker run --rm --name centos-apps khalifahks/centos-apps
 # docker exec -it centos-apps bash
-# Start PHP-FPM server and tail the logs.
-ENTRYPOINT ["start-php-fpm.sh"]
+
+ENTRYPOINT ["php-fpm"]

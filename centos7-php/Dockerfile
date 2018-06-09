@@ -55,12 +55,11 @@ RUN yum-config-manager --enable remi,remi-php71 \
  && rm -rf /var/cache/yum
 
 # Use custom PHP configs.
-ADD ./php.ini /etc/php.ini
-ADD ./php-fpm.conf /etc/php-fpm.conf
-ADD ./www.conf /etc/php-fpm.d/www.conf
-ADD ./start-php-fpm.sh /bin/start-php-fpm.sh
+COPY ./php.ini /etc/php.ini
+COPY ./php-fpm.conf /etc/php-fpm.conf
+COPY ./www.conf /etc/php-fpm.d/www.conf
 
-RUN chmod a+x /bin/start-php-fpm.sh
+RUN mkdir -p /run/php-fpm && chown root:root /run/php-fpm
 
 EXPOSE 9000
 EXPOSE 10000
@@ -70,6 +69,7 @@ EXPOSE 10000
 # docker run -d --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 # docker run -it --rm -p 9000:9000 --name centos-php -h centos_php khalifahks/centos-php
 # docker exec -it centos-php bash
-# cp from docker
-# docker cp centos-apps:/etc/php.d/15-xdebug.ini ./centos7-php/
-ENTRYPOINT ["start-php-fpm.sh"]
+# cp from docker: docker cp centos-apps:/etc/php.d/15-xdebug.ini ./centos7-php/
+
+ENTRYPOINT ["php-fpm"]
+CMD ["--help"]
