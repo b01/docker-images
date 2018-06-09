@@ -24,11 +24,9 @@ ADD ./nginx.conf /etc/nginx/nginx.conf
 ADD ./fastcgi_params /etc/nginx/fastcgi_params
 ADD ./generate-self-signed-cert.sh /bin/generate-self-signed-cert.sh
 ADD ./generate-named-ssl-cert.sh /bin/generate-named-ssl-cert.sh
-ADD ./start-nginx.sh /bin/start-nginx.sh
 
 RUN chmod a+x /bin/generate-self-signed-cert.sh \
  && chmod a+x /bin/generate-named-ssl-cert.sh \
- && chmod a+x /bin/start-nginx.sh \
  && generate-self-signed-cert.sh \
  && mkdir -p /etc/nginx/conf-docker.d && chown root:root /etc/nginx/conf-docker.d
 
