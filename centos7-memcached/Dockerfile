@@ -18,4 +18,6 @@ EXPOSE  11211
 
 # docker run -d --rm -p 11211:11211 --name centos-memcached -h centos_memcached khalifahks/centos-memcached
 # docker run -it --rm -p 11211:11211 --name centos-memcached -h centos_memcached khalifahks/centos-memcached
-CMD ["memcached", "-u", "daemon"]
+
+ENTRYPOINT ["memcached"]
+CMD ["-u", "daemon"]
