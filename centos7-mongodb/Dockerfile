@@ -34,6 +34,7 @@ EXPOSE 27017
 # docker build -t khalifahks/centos-mongodb ./centos7-mongodb
 # docker run -d --rm -p 27017:27017 --name centos-mongodb -h centos_mongodb khalifahks/centos-mongodb
 # docker run -d --rm --mount 'src=mongoData,dst=/var/lib/mongo' --mount 'src=mongoLog,dst=/var/log/mongodb' -p 27017:27017 --name centos-mongodb -h centos_mongodb khalifahks/centos-mongodb
+# docker exec -it centos-mongodb mongo
 
 ENTRYPOINT ["/usr/bin/mongod"]
 CMD ["-f", "/etc/mongod.conf"]
