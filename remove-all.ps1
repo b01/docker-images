@@ -1,6 +1,6 @@
-# This script removes and build all images.
+# This script removes all containers and associated images.
 
-# Remove all associated containers.
+# Remove containers.
 docker rm centos-apps
 docker rm centos-apps54
 docker rm centos-php
@@ -10,7 +10,7 @@ docker rm centos-memcached
 docker rm centos-mysql
 docker rm centos-mongodb
 
-# Then remove all images.
+# Remove images.
 docker rmi khalifahks/centos-apps
 docker rmi khalifahks/centos-apps:54
 docker rmi khalifahks/centos-php
