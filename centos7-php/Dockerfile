@@ -29,7 +29,6 @@ RUN yum -y install http://rpms.famillecollet.com/enterprise/remi-release-7.rpm \
 # Downloand PHP composer.
 # Move the default configuration files out of the way.
 RUN yum-config-manager --enable remi,remi-php71 \
- && yum -y update \
  && yum -y install php \
     php-apcu \
     php-bcmath \

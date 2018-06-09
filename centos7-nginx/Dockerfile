@@ -14,16 +14,15 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
 # Install Nginx.
 # Perform clean-up.
 # Move default configuration out of the way.
-RUN yum -y update \
- && yum -y install nginx \
+RUN yum -y install nginx \
  && yum clean all \
  && mv /etc/nginx/nginx.conf /etc/nginx/nginx-org-conf.txt
 
 # Add a custom nginx config
-ADD ./nginx.conf /etc/nginx/nginx.conf
-ADD ./fastcgi_params /etc/nginx/fastcgi_params
-ADD ./generate-self-signed-cert.sh /bin/generate-self-signed-cert.sh
-ADD ./generate-named-ssl-cert.sh /bin/generate-named-ssl-cert.sh
+COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./fastcgi_params /etc/nginx/fastcgi_params
+COPY ./generate-self-signed-cert.sh /bin/generate-self-signed-cert.sh
+COPY ./generate-named-ssl-cert.sh /bin/generate-named-ssl-cert.sh
 
 RUN chmod a+x /bin/generate-self-signed-cert.sh \
  && chmod a+x /bin/generate-named-ssl-cert.sh \

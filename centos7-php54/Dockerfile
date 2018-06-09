@@ -30,7 +30,6 @@ RUN yum -y install http://rpms.famillecollet.com/enterprise/remi-release-7.rpm \
 # Move the default configuration files out of the way.
 # Make sure the pecl_http lib get loaded with php.
 RUN yum-config-manager --enable remi,remi-php54 \
- && yum -y update \
  && yum -y install php \
     php-bcmath \
     php-cli \
