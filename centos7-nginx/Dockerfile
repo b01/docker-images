@@ -17,7 +17,7 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
 RUN yum -y update \
  && yum -y install nginx \
  && yum clean all \
- && mv /etc/nginx/nginx.conf /etc/nginx/nginx.txt
+ && mv /etc/nginx/nginx.conf /etc/nginx/nginx-org-conf.txt
 
 # Add a custom nginx config
 ADD ./nginx.conf /etc/nginx/nginx.conf
@@ -26,17 +26,22 @@ ADD ./generate-self-signed-cert.sh /bin/generate-self-signed-cert.sh
 ADD ./generate-named-ssl-cert.sh /bin/generate-named-ssl-cert.sh
 ADD ./start-nginx.sh /bin/start-nginx.sh
 
-RUN chmod a+x /bin/generate-self-signed-cert.sh
-RUN chmod a+x /bin/generate-named-ssl-cert.sh
-RUN chmod a+x /bin/start-nginx.sh
-RUN generate-self-signed-cert.sh
+RUN chmod a+x /bin/generate-self-signed-cert.sh \
+ && chmod a+x /bin/generate-named-ssl-cert.sh \
+ && chmod a+x /bin/start-nginx.sh \
+ && generate-self-signed-cert.sh \
+ && mkdir -p /etc/nginx/conf-docker.d && chown root:root /etc/nginx/conf-docker.d
+
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+ && ln -sf /dev/stderr /var/log/nginx/error.log
 
 EXPOSE 80
 EXPOSE 443
 
 # docker build --rm -t khalifahks/centos-nginx ./centos7-nginx
 # docker build --rm --no-cache -t khalifahks/centos-nginx ./centos7-nginx
-# docker run -d --rm -p 8081:80 -p 3443:443 --name centos-nginx -h centos_nginx khalifahks/centos-nginx
-# docker run -it --rm -p 8081:80 -p 3443:443 --name centos-nginx -h centos_nginx khalifahks/centos-nginx
+# docker run -d --rm -p 80:80 -p 443:443 --label production_status=centos-nginx --log-opt mode=non-blocking --name centos-nginx -h centos_nginx khalifahks/centos-nginx
+# docker run -it --rm -p 80:80 -p 443:443 --label production_status=centos-nginx --log-opt mode=non-blocking --name centos-nginx -h centos_nginx khalifahks/centos-nginx
 # docker exec -it centos-nginx bash
-ENTRYPOINT ["start-nginx.sh"]
+
+CMD ["nginx"]
