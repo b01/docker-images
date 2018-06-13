@@ -36,13 +36,15 @@ RUN echo "export CLICOLOR=1" >> /root/.bashrc \
  && echo 'export GREP_OPTIONS="--color=auto --exclude-dir=.git --exclude-dir=.idea"' >> /root/.bashrc \
  && chmod a+x /bin/rebased-check.sh
 
+# Install browser drivers and setup a virtual monitor.
 # These links helped a lot:
 # http://ithubinfo.blogspot.com/2013/11/how-to-install-and-configure-xvfb-in.html
 # https://linuxmeerkat.wordpress.com/2014/10/17/running-a-gui-application-in-a-docker-container/amp/
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz \
- && tar -xvzf geckodriver-v0.20.1-linux64.tar.gz \
- && mv geckodriver /bin \
- && wget https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
+#RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz \
+# && tar -xvzf geckodriver-v0.20.1-linux64.tar.gz \
+# && mv geckodriver /bin
+
+RUN wget https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
  && unzip chromedriver_linux64.zip \
  && mv chromedriver /bin \
  && mkdir /run/dbus \
