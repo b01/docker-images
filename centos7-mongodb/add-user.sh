@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Generate a password.
-mongoUser="root"
+mongoUser="mongoAdmin"
 mongoPass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
 mongoAdminDb="admin"
 
@@ -17,6 +17,7 @@ x="${x}    }]\n"
 x="${x}});"
 
 # Save to a file.
+printf "Generating script to add a root user.\n"
 printf "${x}" > $ADD_USER_FILE
 
 if [ -f "${ADD_USER_FILE}" ]; then

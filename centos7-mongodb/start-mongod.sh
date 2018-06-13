@@ -2,6 +2,7 @@
 
 # Run script to add a root user with a generated password.
 if [ -f "${ADD_USER_CMD}" ]; then
+    printf "running ${ADD_USER_CMD} script\n\n"
     source $ADD_USER_CMD
 fi
 
