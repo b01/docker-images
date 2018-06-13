@@ -14,6 +14,8 @@ docker build --rm -t khalifahks/centos-apps ./apps
 
 docker build --rm -t khalifahks/centos-apps:54 ./apps54
 
+docker build --rm -t khalifahks/centos-cci cci
+
 docker build --rm -t khalifahks/centos-mongodb ./centos7-mongodb
 
 #docker build --rm -t khalifahks/centos-mysql ./centos7-mysql
