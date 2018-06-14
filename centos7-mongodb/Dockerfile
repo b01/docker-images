@@ -37,9 +37,9 @@ ENV MONGO_CRED_FILE "${HOME}/mongo-credentials.txt"
 
 WORKDIR $HOME
 
-COPY mongod.conf /etc/mongod.conf
-COPY add-user.sh "${HOME}/add-user.sh"
-COPY start-mongod.sh /bin/start-mongod.sh
+COPY mongod.conf /etc/
+COPY add-user.sh "${HOME}/"
+COPY start-mongod.sh /bin/
 
 EXPOSE 27017
 
