@@ -40,7 +40,6 @@ VOLUME /var/log/mongodb
 ENV HOME /var/lib/mongo
 ENV ADD_USER_CMD "${HOME}/add-user.sh"
 ENV ADD_USER_FILE "${HOME}/add-mongo-user.js"
-ENV MONGO_CRED_FILE "${HOME}/mongo-credentials.txt"
 
 WORKDIR $HOME
 
