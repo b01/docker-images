@@ -34,7 +34,7 @@ RUN apk -U --no-cache \
     yarn
 
 COPY ./rebased-check.sh /bin/rebased-check.sh
-#COPY ./15-xdebug.ini /etc/php7/conf.d/15-xdebug.ini
+COPY ./xdebug.ini /etc/php7/conf.d/xdebug.ini
 
 RUN echo "export CLICOLOR=1" >> /root/.bashrc \
  && echo 'export GREP_OPTIONS="--color=auto --exclude-dir=.git --exclude-dir=.idea"' >> /root/.bashrc \
@@ -72,5 +72,5 @@ WORKDIR /code
 # docker run --rm --name alpine-apps khalifahks/alpine-apps
 # docker exec -it alpine-apps sh
 
-ENTRYPOINT ["php-fpm"]
+ENTRYPOINT ["php-fpm7"]
 CMD ["-c", "/etc/php7/php-fpm.conf"]
