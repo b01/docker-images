@@ -7,12 +7,7 @@ FROM khalifahks/alpine-php
 # May need
 # glibc-2.21 \
 RUN apk --update add --no-cache \
-    ca-certificates \
-    curl \
     paxctl \
-    php7-memcached \
-    php7-xdebug \
-    wget \
     tar
 
 COPY install-java.sh .
@@ -27,13 +22,14 @@ ENV PATH ${PATH}:${JAVA_HOME}/bin
 # The integration test require Selenium, which requires Java
 RUN apk -U --no-cache \
     --allow-untrusted add --update \
-    bzip2 \
     chromium \
     dbus-x11 \
     git \
     nodejs \
     nodejs-npm \
-    unzip \
+    php7-memcached \
+    php7-sodium \
+    php7-xdebug \
     xvfb \
     yarn
 
