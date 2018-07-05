@@ -10,6 +10,7 @@ RUN apk --update add --no-cache \
     ca-certificates \
     curl \
     paxctl \
+    php7-memcached \
     php7-xdebug \
     wget \
     tar
