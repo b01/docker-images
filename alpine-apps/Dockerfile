@@ -77,3 +77,4 @@ WORKDIR /code
 # docker exec -it alpine-apps sh
 
 ENTRYPOINT ["php-fpm"]
+CMD ["-c", "/etc/php7/php-fpm.conf"]
