@@ -36,4 +36,4 @@ EXPOSE 10000
 # docker exec -it alpine-php bash
 
 ENTRYPOINT ["php-fpm"]
-CMD ["--help"]
+CMD ["-c", "/etc/php7/php-fpm.conf"]
