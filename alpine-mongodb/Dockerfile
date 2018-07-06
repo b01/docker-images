@@ -24,7 +24,6 @@ COPY add-user.sh "${HOME}/"
 COPY start-mongod.sh /usr/bin/
 
 RUN chmod +x /usr/bin/start-mongod.sh \
- && chown mongodb:mongodb "${HOME}/add-user.sh" \
  && mkdir -p /run/mongodb \
  && chown mongodb:mongodb /run/mongodb
 
@@ -38,8 +37,8 @@ WORKDIR $HOME
 EXPOSE 27017
 
 # docker build --rm --no-cache -t khalifahks/alpine-mongodb ./alpine-mongodb
-# docker run -d --rm --mount 'src=mongoData,dst=/var/lib/mongo' --mount 'src=mongoLog,dst=/var/log/mongodb' -p 27017:27017 --name alpine-mongodb -h alpine_mongodb khalifahks/alpine-mongodb
-# docker run --rm --mount 'src=mongoData,dst=/var/lib/mongo' --mount 'src=mongoLog,dst=/var/log/mongodb' -p 27017:27017 --name alpine-mongodb -h alpine_mongodb khalifahks/alpine-mongodb
+# docker run -d --rm --mount 'src=mongoData,dst=/var/lib/mongodb' --mount 'src=mongoLog,dst=/var/log/mongodb' -p 27017:27017 --name alpine-mongodb -h alpine_mongodb khalifahks/alpine-mongodb
+# docker run --rm --mount 'src=mongoData,dst=/var/lib/mongodb' --mount 'src=mongoLog,dst=/var/log/mongodb' -p 27017:27017 --name alpine-mongodb -h alpine_mongodb khalifahks/alpine-mongodb
 # docker exec -it alpine-mongodb mongo
 
 ENTRYPOINT ["start-mongod.sh"]

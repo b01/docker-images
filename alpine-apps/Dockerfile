@@ -4,15 +4,12 @@ FROM khalifahks/alpine-php
 # https://wiki.alpinelinux.org/wiki/Installing_Oracle_Java
 # https://developer.atlassian.com/blog/2015/08/minimal-java-docker-containers/
 
-# May need
-# glibc-2.21 \
-RUN apk --update add --no-cache \
-    paxctl \
-    tar
-
 COPY install-java.sh .
 
-RUN chmod +x ./install-java.sh \
+RUN apk add --no-cache --update \
+    paxctl \
+    tar \
+ && chmod +x ./install-java.sh \
  && ./install-java.sh
 
 ENV JAVA_HOME /opt/java/current
@@ -20,21 +17,16 @@ ENV PATH ${PATH}:${JAVA_HOME}/bin
 
 # Install Applications
 # The integration test require Selenium, which requires Java
-RUN apk -U --no-cache \
-    --allow-untrusted add --update \
+RUN apk add --no-cache --update \
     chromium \
     dbus-x11 \
     git \
     nodejs \
     nodejs-npm \
-    php7-memcached \
-    php7-sodium \
-    php7-xdebug \
     xvfb \
     yarn
 
 COPY ./rebased-check.sh /bin/rebased-check.sh
-COPY ./xdebug.ini /etc/php7/conf.d/xdebug.ini
 
 RUN echo "export CLICOLOR=1" >> /root/.bashrc \
  && echo 'export GREP_OPTIONS="--color=auto --exclude-dir=.git --exclude-dir=.idea"' >> /root/.bashrc \
@@ -68,9 +60,7 @@ WORKDIR /code
 
 # docker build --rm --no-cache -t khalifahks/alpine-apps ./alpine-apps
 # docker run -d --rm --name alpine-apps khalifahks/alpine-apps
-# docker run -it --rm --name alpine-apps khalifahks/alpine-apps
-# docker run --rm --name alpine-apps khalifahks/alpine-apps
 # docker exec -it alpine-apps sh
 
-ENTRYPOINT ["php-fpm7"]
-CMD ["-c", "/etc/php7/php-fpm.conf"]
+ENTRYPOINT ["php-fpm"]
+CMD ["-c", "/usr/local/etc/php/php-fpm.conf"]
