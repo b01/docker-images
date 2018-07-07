@@ -34,27 +34,23 @@ RUN echo "export CLICOLOR=1" >> /root/.bashrc \
  && mkdir -p /code \
  && chown root:root /code
 
-# Install browser drivers and setup a virtual monitor.
 # These links helped a lot:
 # http://ithubinfo.blogspot.com/2013/11/how-to-install-and-configure-xvfb-in.html
 # https://linuxmeerkat.wordpress.com/2014/10/17/running-a-gui-application-in-a-docker-container/amp/
-#RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz \
-# && tar -xvzf geckodriver-v0.20.1-linux64.tar.gz \
-# && mv geckodriver /bin
-#
-#RUN wget https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
-# && unzip chromedriver_linux64.zip \
-# && mv chromedriver /bin \
-# && mkdir /run/dbus \
-# && echo "export DISPLAY=:1.0" >> /etc/bashrc
+# Install browser drivers.
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz \
+ && tar -xvzf geckodriver-v0.20.1-linux64.tar.gz \
+ && mv geckodriver /usr/local/bin
+
+RUN wget https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
+ && unzip chromedriver_linux64.zip \
+ && mv chromedriver /usr/local/bin
 
 WORKDIR /code
 
 # use to test if chrome is working
 # chromium-browser --no-sandbox --headless --disable-gpu --dump-dom https://www.chromestatus.com/
-
-# use to save a PDF of the page
-# chrome --headless --disable-gpu --print-to-pdf https://www.chromestatus.com/
+# chromium-browser --no-sandbox --headless --disable-gpu --print-to-pdf https://www.chromestatus.com/
 
 # see here for more examples: https://developers.google.com/web/updates/2017/04/headless-chrome
 
