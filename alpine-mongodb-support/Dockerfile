@@ -8,33 +8,34 @@ FROM alpine:edge
 RUN apk --update add --no-cache \
  mongodb-tools
 
-ENV HOME /var/lib/mongo
-ENV MONGO_BACKUP_DIR /var/lib/mongodb-backup
-ENV MONGO_LOGS /var/log/mongodb
+ENV MONGO_DKR_DATA_DIR /var/lib/mongodb
+ENV MONGO_DKR_BKUP_DIR /var/lib/mongodb-backup
 ENV MONGO_BAKUP_DAYS 10
-ENV MONGO_HOST "localhost"
-ENV MONGO_USER ""
-ENV MONGO_PASS ""
+ENV MONGO_HOST 'localhost'
+ENV MONGO_USER ''
+ENV MONGO_PASS ''
 ENV MONGO_ADMIN_DB admin
+ENV MONGO_RUN_PID_FILE '/var/run/mongodb/mongod.pid'
 
-VOLUME $HOME
-VOLUME $MONGO_BACKUP_DIR
-VOLUME $MONGO_LOGS
+VOLUME $MONGO_DKR_DATA_DIR
+VOLUME $MONGO_DKR_BKUP_DIR
 
-WORKDIR $HOME
+WORKDIR $MONGO_DKR_DATA_DIR
 
-COPY mongodb-backup.sh /bin/
-COPY remove.sh /bin/
-COPY start-cron-job.sh /bin/
+COPY backup-mongodb.sh /usr/local/bin/
+COPY truncate-mongodb-backups.sh /usr/local/bin/
+COPY add-mongodb-cron-job.sh /usr/local/bin/
+COPY restore-last.sh /usr/local/bin/
 
-RUN chmod +x /bin/mongodb-backup.sh \
- && chmod +x /bin/remove.sh \
- && chmod +x /bin/start-cron-job.sh
+RUN chmod +x /usr/local/bin/backup-mongodb.sh \
+ && chmod +x /usr/local/bin/truncate-mongodb-backups.sh \
+ && chmod +x /usr/local/bin/add-mongodb-cron-job.sh \
+ && chmod +x /usr/local/bin/restore-last.sh
 
-RUN start-cron-job.sh
+RUN add-mongodb-cron-job.sh
 
 # docker build --rm --no-cache -t khalifahks/alpine-mongodb-support ./alpine-mongodb-support
-# docker run --rm --mount 'src=mongoData,dst=/var/lib/mongo' --mount 'src=mongoLog,dst=/var/log/mongodb' --name alpine-mongodb-support -h alpine_mongodb_support khalifahks/alpine-mongodb-support
+# docker run --rm --mount 'src=mongoData,dst=/var/lib/mongodb' --mount 'src=mongoLog,dst=/var/log/mongodb' --name alpine-mongodb-support -h alpine_mongodb_support khalifahks/alpine-mongodb-support
 # docker exec -it alpine-mongodb-support sh
 
 ENTRYPOINT ["crond"]

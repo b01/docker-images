@@ -15,30 +15,32 @@ FROM alpine:edge
 RUN apk --update add --no-cache \
     mongodb
 
-ENV HOME /var/lib/mongodb
-ENV ADD_USER_CMD "${HOME}/add-user.sh"
-ENV ADD_USER_FILE "${HOME}/add-mongo-user.js"
+ENV MONGO_DKR_DATA_DIR '/var/lib/mongodb'
+ENV MONGO_DKR_LOG_DIR '/var/log/mongodb'
+ENV ADD_USER_CMD "${MONGO_DKR_DATA_DIR}/add-user.sh"
+ENV ADD_USER_FILE "${MONGO_DKR_DATA_DIR}/add-mongo-user.js"
+ENV MONGO_RUN_PID_FILE '/var/run/mongodb/mongod.pid'
 
 COPY mongod.conf /etc/
-COPY add-user.sh "${HOME}/"
-COPY start-mongod.sh /usr/bin/
+COPY add-user.sh "${MONGO_DKR_DATA_DIR}/"
+COPY start-mongod.sh /usr/local/bin/
 
-RUN chmod +x /usr/bin/start-mongod.sh \
+RUN chmod +x /usr/local/bin/start-mongod.sh \
  && mkdir -p /run/mongodb \
- && chown mongodb:mongodb /run/mongodb
+ && chown mongodb:mongodb /run/mongodb \
+ && ln -sf /dev/stderr "${MONGO_DKR_LOG_DIR}/mongod.log"
 
 USER mongodb
 
-VOLUME /var/lib/mongodb
-VOLUME /var/log/mongodb
+VOLUME $MONGO_DKR_DATA_DIR
 
-WORKDIR $HOME
+WORKDIR $MONGO_DKR_DATA_DIR
 
 EXPOSE 27017
 
 # docker build --rm --no-cache -t khalifahks/alpine-mongodb ./alpine-mongodb
-# docker run -d --rm --mount 'src=mongoData,dst=/var/lib/mongodb' --mount 'src=mongoLog,dst=/var/log/mongodb' -p 27017:27017 --name alpine-mongodb -h alpine_mongodb khalifahks/alpine-mongodb
 # docker run --rm --mount 'src=mongoData,dst=/var/lib/mongodb' --mount 'src=mongoLog,dst=/var/log/mongodb' -p 27017:27017 --name alpine-mongodb -h alpine_mongodb khalifahks/alpine-mongodb
 # docker exec -it alpine-mongodb mongo
 
-ENTRYPOINT ["start-mongod.sh"]
+ENTRYPOINT []
+CMD ["start-mongod.sh"]
