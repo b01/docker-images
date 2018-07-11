@@ -15,8 +15,8 @@ RUN apk add --no-cache --update libmemcached \
 
 # Use custom PHP configs.
 COPY ./php.ini /usr/local/etc/php/php.ini
-COPY ./php-fpm.conf /usr/local/etc/php/php-fpm.conf
-COPY ./www.conf /usr/local/etc/php/php-fpm.d/www.conf
+COPY ./php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY ./www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # docker build --rm --no-cache -t khalifahks/alpine-php ./alpine-php
