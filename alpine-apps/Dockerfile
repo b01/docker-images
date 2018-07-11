@@ -47,6 +47,9 @@ RUN echo "Intalling extra PHP extensions:" \
  && docker-php-ext-install soap \
  && apk del addPHPExts
 
+RUN echo "NPM install require" \
+ && apk add python make g++
+
 ENV JAVA_HOME /opt/java/current
 ENV PATH ${PATH}:${JAVA_HOME}/bin
 
