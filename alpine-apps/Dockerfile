@@ -62,7 +62,7 @@ WORKDIR /code
 # see here for more examples: https://developers.google.com/web/updates/2017/04/headless-chrome
 
 # docker build --rm --no-cache -t khalifahks/alpine-apps ./alpine-apps
-# docker run -d --rm --name alpine-apps khalifahks/alpine-apps
+# docker run -it --rm --name alpine-apps khalifahks/alpine-apps
 # docker exec -it alpine-apps sh
 
 ENTRYPOINT ["php-fpm"]

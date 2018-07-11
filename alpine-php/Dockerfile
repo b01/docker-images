@@ -20,7 +20,7 @@ COPY ./www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # docker build --rm --no-cache -t khalifahks/alpine-php ./alpine-php
-# docker run -d --rm --name alpine-php -h alpine_php khalifahks/alpine-php
+# docker run -it --rm --name alpine-php -h alpine_php khalifahks/alpine-php
 # docker exec -it alpine-php sh
 
 ENTRYPOINT ["php-fpm"]
