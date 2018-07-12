@@ -8,8 +8,13 @@ FROM khalifahks/alpine-php
 # http://ithubinfo.blogspot.com/2013/11/how-to-install-and-configure-xvfb-in.html
 # https://linuxmeerkat.wordpress.com/2014/10/17/running-a-gui-application-in-a-docker-container/amp/
 
-COPY install-java.sh .
-COPY ./rebased-check.sh /bin/rebased-check.sh
+#COPY install-java.sh .
+COPY ./rebased-check.sh /usr/local/bin/rebased-check.sh
+
+#ENV JAVA_VERSION_MAJOR 8
+#ENV JAVA_VERSION_MINOR 45
+#ENV JAVA_VERSION_BUILD 14
+#ENV JAVA_PACKAGE jdk
 
 # Install Applications
 # The integration test require Selenium, which requires Java
@@ -22,16 +27,15 @@ RUN apk add --no-cache --update \
     git \
     nodejs \
     nodejs-npm \
+    openjdk8 \
     openssh \
     xvfb \
     yarn \
  && echo "export CLICOLOR=1" >> /root/.bashrc \
  && echo 'export GREP_OPTIONS="--color=auto --exclude-dir=.git --exclude-dir=.idea"' >> /root/.bashrc \
- && chmod a+x /bin/rebased-check.sh \
+ && chmod +x /usr/local/bin/rebased-check.sh \
  && mkdir -p /code \
  && chown root:root /code \
- && chmod +x ./install-java.sh \
- && ./install-java.sh \
  && wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz \
  && tar -xvzf geckodriver-v0.20.1-linux64.tar.gz \
  && mv geckodriver /usr/local/bin \
@@ -41,17 +45,18 @@ RUN apk add --no-cache --update \
 
 RUN echo "Intalling extra PHP extensions:" \
  && apk add freetype libjpeg-turbo libpng libxml2 \
- && apk add --no-cache --update --virtual addPHPExts freetype-dev libjpeg-turbo-dev libpng-dev libxml2-dev \
+ && apk add --no-cache --update --virtual addPHPExtsDeps freetype-dev libjpeg-turbo-dev libpng-dev libxml2-dev \
  && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
  && docker-php-ext-install -j$(nproc) gd \
  && docker-php-ext-install soap \
- && apk del addPHPExts
+ && apk del addPHPExtsDeps
 
 RUN echo "NPM install require" \
  && apk add python make g++
 
-ENV JAVA_HOME /opt/java/current
-ENV PATH ${PATH}:${JAVA_HOME}/bin
+#RUN ./install-java-atlassian.sh
+#ENV JAVA_HOME /opt/jdk
+#ENV PATH ${PATH}:${JAVA_HOME}/bin
 
 WORKDIR /code
 

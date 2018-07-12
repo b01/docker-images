@@ -8,7 +8,8 @@ COPY start-servers.sh /usr/local/bin/start-servers.sh
 COPY php-fpm.conf /usr/local/etc/php-fpm.conf
 
 # Install some dependencies.
-RUN apk --update add --no-cache nginx \
+RUN apk add --update --no-cache \
+    nginx \
  && mkdir -p /etc/nginx/conf-docker.d && chown root:root /etc/nginx/conf-docker.d \
  && chmod +x /usr/local/bin/generate-self-signed-cert.sh \
  && chmod +x /usr/local/bin/generate-named-ssl-cert.sh \
