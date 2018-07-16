@@ -1,4 +1,5 @@
 FROM khalifahks/alpine-php
+
 # Refences:
 # https://hub.docker.com/_/php/
 # https://wiki.alpinelinux.org/wiki/Installing_Oracle_Java
@@ -8,13 +9,19 @@ FROM khalifahks/alpine-php
 # http://ithubinfo.blogspot.com/2013/11/how-to-install-and-configure-xvfb-in.html
 # https://linuxmeerkat.wordpress.com/2014/10/17/running-a-gui-application-in-a-docker-container/amp/
 
-COPY ./rebased-check.sh /usr/local/bin/rebased-check.sh
+# Use to test if chrome is working
+# chromium-browser --no-sandbox --headless --disable-gpu --dump-dom https://www.chromestatus.com/
+# chromium-browser --no-sandbox --headless --disable-gpu --print-to-pdf https://www.chromestatus.com/
+# See more examples here: https://developers.google.com/web/updates/2017/04/headless-chrome
+
+COPY rebased-check.sh /usr/local/bin/
+COPY xdebug.ini /etc/php7/conf.d/
+COPY 00_sodium.ini /etc/php7/conf.d/
 
 # Install Applications
 # The integration test require Selenium, which requires Java
 # Install browser drivers.
-RUN apk add --no-cache --update \
-    paxctl \
+RUN apk --purge add --no-cache \
     tar \
     chromium \
     dbus-x11 \
@@ -29,36 +36,36 @@ RUN apk add --no-cache --update \
  && echo 'export GREP_OPTIONS="--color=auto --exclude-dir=.git --exclude-dir=.idea"' >> /root/.bashrc \
  && chmod +x /usr/local/bin/rebased-check.sh \
  && mkdir -p /code \
- && chown root:root /code \
- && wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz \
- && tar -xvzf geckodriver-v0.20.1-linux64.tar.gz \
- && mv geckodriver /usr/local/bin \
- && wget https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
- && unzip chromedriver_linux64.zip \
- && mv chromedriver /usr/local/bin
+ && chown root:root /code
+
+#RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz \
+# && tar -xvzf geckodriver-v0.20.1-linux64.tar.gz \
+# && mv geckodriver /usr/local/bin \
+# && wget https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
+# && unzip chromedriver_linux64.zip \
+# && mv chromedriver /usr/local/bin
 
 RUN echo "Intalling extra PHP extensions:" \
- && apk add freetype libjpeg-turbo libpng libxml2 \
- && apk add --no-cache --update --virtual addPHPExtsDeps freetype-dev libjpeg-turbo-dev libpng-dev libxml2-dev \
- && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
- && docker-php-ext-install -j$(nproc) gd \
- && docker-php-ext-install soap \
- && apk del addPHPExtsDeps
+ && apk --purge add --no-cache \
+ libsodium \
+ php7-gd \
+ php7-memcached \
+ php7-soap \
+ php7-xdebug \
+ && apk add --no-cache --virtual peclDeps autoconf g++ libsodium-dev make php7-dev \
+ && pecl config-set php_ini /etc/php7/php.ini \
+ && pecl install libsodium-2.0.11 \
+ && pecl clear-cache \
+ && apk del peclDeps
 
 RUN echo "NPM install require" \
  && apk add python make g++
 
 WORKDIR /code
 
-# use to test if chrome is working
-# chromium-browser --no-sandbox --headless --disable-gpu --dump-dom https://www.chromestatus.com/
-# chromium-browser --no-sandbox --headless --disable-gpu --print-to-pdf https://www.chromestatus.com/
-
-# see here for more examples: https://developers.google.com/web/updates/2017/04/headless-chrome
-
 # docker build --rm --no-cache -t khalifahks/alpine-apps ./alpine-apps
 # docker run -it --rm --name alpine-apps khalifahks/alpine-apps
 # docker exec -it alpine-apps sh
 
-ENTRYPOINT ["php-fpm"]
-CMD ["-c", "/usr/local/etc/php/php-fpm.conf"]
+ENTRYPOINT ["php-fpm7"]
+CMD ["-c", "/etc/php7/php-fpm.conf"]
