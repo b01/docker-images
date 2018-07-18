@@ -9,7 +9,7 @@
 watchServers () {
     # PID is in file: /var/run/nginx.pid
     echo "stopping NGinX server."
-    nginx -s stop
+    nginx -c /etc/nginx/custom-nginx.conf -s stop
 
     echo "stopping PHP-FPM server."
     # PID is in file: /var/run/php-fpm.pid

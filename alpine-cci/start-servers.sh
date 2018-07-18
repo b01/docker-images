@@ -18,7 +18,7 @@ nginx -c /etc/nginx/custom-nginx.conf
 
 # start PHP-FPM server in the background
 # PID is in file: /var/run/php-fpm.pid
-exec php-fpm7 --fpm-config /usr/local/etc/php/php-fpm.conf
+php-fpm7 --fpm-config /etc/php7/php-fpm.conf
 
 # WIP
-#exec watch-servers.sh
+exec watch-servers.sh

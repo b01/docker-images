@@ -6,7 +6,7 @@ COPY generate-self-signed-cert.sh /usr/local/bin/generate-self-signed-cert.sh
 COPY generate-named-ssl-cert.sh /usr/local/bin/generate-named-ssl-cert.sh
 COPY start-servers.sh /usr/local/bin/start-servers.sh
 COPY watch-servers.sh /usr/local/bin/watch-servers.sh
-COPY php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY ./php-fpm.conf /etc/php7/php-fpm.conf
 
 # Install some dependencies.
 RUN apk --purge add --no-cache \
@@ -30,4 +30,5 @@ RUN apk --purge add --no-cache \
 # docker exec -it alpine-cci sh
 
 ENTRYPOINT []
-CMD ["start-servers.sh"]
+#CMD ["start-servers.sh"]
+CMD []
