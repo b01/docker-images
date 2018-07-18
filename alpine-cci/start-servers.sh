@@ -6,8 +6,6 @@
 #   https://www.ctl.io/developers/blog/post/gracefully-stopping-docker-containers/
 #   https://medium.com/@gchudnov/trapping-signals-in-docker-containers-7a57fdda7d86
 
-trap 'exit 0' SIGTERM
-
 # start a virtual display in the background.
 Xvfb :1 -screen 0 1024x768x16 &> /var/log/xvfb1.log  &
 # PID is in file: /var/run/dbus.pid
@@ -20,6 +18,7 @@ nginx -c /etc/nginx/custom-nginx.conf
 
 # start PHP-FPM server in the background
 # PID is in file: /var/run/php-fpm.pid
-php-fpm -c /usr/local/etc/php/php-fpm.conf
+exec php-fpm7 --fpm-config /usr/local/etc/php/php-fpm.conf
 
-while true; do :; done
+# WIP
+#exec watch-servers.sh

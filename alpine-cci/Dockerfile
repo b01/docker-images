@@ -5,10 +5,12 @@ COPY custom-nginx.conf /etc/nginx/
 COPY generate-self-signed-cert.sh /usr/local/bin/generate-self-signed-cert.sh
 COPY generate-named-ssl-cert.sh /usr/local/bin/generate-named-ssl-cert.sh
 COPY start-servers.sh /usr/local/bin/start-servers.sh
+COPY watch-servers.sh /usr/local/bin/watch-servers.sh
 COPY php-fpm.conf /usr/local/etc/php-fpm.conf
 
 # Install some dependencies.
-RUN apk add --update --no-cache \
+RUN apk --purge add --no-cache \
+    openssl \
     nginx \
  && mkdir -p /etc/nginx/conf-docker.d && chown root:root /etc/nginx/conf-docker.d \
  && chmod +x /usr/local/bin/generate-self-signed-cert.sh \
