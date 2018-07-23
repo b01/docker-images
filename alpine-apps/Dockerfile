@@ -44,14 +44,22 @@ RUN apk --purge add --no-cache \
 # && wget https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
 # && unzip chromedriver_linux64.zip \
 # && mv chromedriver /usr/local/bin
-
 RUN echo "Intalling extra PHP extensions:" \
  && apk --purge add --no-cache \
+ curl \
  libsodium \
+ php7-ctype \
+ php7-dom \
  php7-gd \
+ php7-mbstring \
  php7-memcached \
+ php7-pdo \
+ php7-simplexml \
  php7-soap \
+ php7-tokenizer \
  php7-xdebug \
+ php7-xmlreader \
+ php7-xmlwriter \
  && apk add --no-cache --virtual peclDeps autoconf g++ libsodium-dev make php7-dev \
  && pecl config-set php_ini /etc/php7/php.ini \
  && pecl install libsodium-2.0.11 \
