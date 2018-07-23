@@ -6,7 +6,7 @@ FROM alpine:edge
 # Install the PHP extensions.
 # Downloand PHP composer.
 RUN apk --purge update \
-RUN apk --purge --no-cache upgrade \
+ && apk --purge --no-cache upgrade \
  && apk --no-cache add --upgrade \
     php7 \
     php7-cgi \
