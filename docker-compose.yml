@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+
+    nginx: # to connect use: docker exec -it alpine-mongodb bash
+        container_name: 'alpine-nginx'
+        image: 'khalifahks/alpine-nginx'
+        networks:
+            net_1:
+                aliases:
+                    - 'web_nginx'
+
+    memcached: # to connect use: docker exec -it alpine-mongodb bash
+        container_name: 'alpine-memcached'
+        image: 'khalifahks/alpine-memcached'
+        networks:
+            net_1:
+                aliases:
+                    - 'web_memcached'
+
+    apps: # to connect use: docker exec -it alpine-mongodb bash
+        container_name: 'alpine-apps'
+        image: 'khalifahks/alpine-apps'
+        networks:
+            net_1:
+                aliases:
+                    - 'web_apps'
+
+    cci: # to connect use: docker exec -it alpine-mongodb bash
+        container_name: 'alpine-cci'
+        image: 'khalifahks/alpine-cci'
+        command: start-servers.sh
+        networks:
+            net_1:
+                aliases:
+                    - 'web_cci'
+
+    mongodb: # to connect use: docker exec -it alpine-mongodb bash
+        container_name: 'alpine-mongodb'
+        image: 'khalifahks/alpine-mongodb'
+        networks:
+            net_1:
+                aliases:
+                    - 'web_mongodb'
+        ports:
+            - '27017:27017'
+#        volumes:
+#            - 'mongoData:/var/lib/mongodb'
+#            - 'mongoLog:/var/log/mongodb'
+        environment:
+            MONGO_HOST: 'web_mongodb'
+            MONGO_USER: 'circleci'
+            MONGO_PASS: 'circleci123'
+            MONGO_ADMIN_DB: 'admin'
+            MONGO_DKR_DATA_DIR: '/var/lib/mongodb'
+            MONGO_DKR_LOG_DIR: '/var/log/mongodb'
+            MONGO_DKR_BKUP_DIR: '/var/lib/mongodb-backup'
+
+    mongodbsupport: # to connect use: docker exec -it alpine-mongodb-support bash
+        container_name: 'alpine-mongodb-support'
+        image: 'khalifahks/alpine-mongodb-support'
+        depends_on:
+            - 'mongodb'
+        networks:
+            net_1:
+                aliases:
+                    - 'web_mongodb_support'
+#        volumes:
+#            - "mongoData:/var/lib/mongodb"
+#            - "mongoLog:${MONGO_DKR_LOG_DIR}"
+#            - '~/code/backup:/var/log/mongodb"
+        environment:
+            MONGO_HOST: 'web_mongodb'
+            MONGO_USER: 'circleci'
+            MONGO_PASS: 'circleci123'
+            MONGO_ADMIN_DB: 'admin'
+            MONGO_DKR_DATA_DIR: '/var/lib/mongodb'
+            MONGO_DKR_BKUP_DIR: '/var/log/mongodb'
+
+networks:
+    net_1:
+
+#volumes:
+#    mongoData:
+#        external: true
+#    mongoLog:
+#        external: true
