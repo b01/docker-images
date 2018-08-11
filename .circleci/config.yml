@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+    working_directory: ~/code
     docker:
       - image: docker:17.05.0-ce-git
     steps:
@@ -16,6 +17,7 @@ jobs:
       - run:
           name: Build application Docker image
           command: |
+            pwd
             ./build-all.sh
       - run:
           name: Run tests
