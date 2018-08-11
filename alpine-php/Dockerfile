@@ -5,9 +5,8 @@ FROM alpine:edge
 
 # Install the PHP extensions.
 # Downloand PHP composer.
-RUN apk --purge update \
- && apk --purge --no-cache upgrade \
- && apk --no-cache add --upgrade \
+RUN apk --progress --purge --no-cache upgrade \
+ && apk --no-progress --purge --no-cache add --upgrade \
     php7 \
     php7-cgi \
     php7-curl \
@@ -21,7 +20,9 @@ RUN apk --purge update \
     php7-xml \
  && apk add --no-cache --virtual dockerRunDeps curl \
  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
- && apk del dockerRunDeps
+ && apk del dockerRunDeps \
+ && apk --progress --purge --no-cache upgrade \
+ && rm -rf /var/cache/apk/*
 
 COPY ./php.ini /etc/php7/php.ini
 COPY ./php-fpm.conf /etc/php7/php-fpm.conf

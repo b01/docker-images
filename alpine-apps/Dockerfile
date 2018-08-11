@@ -45,7 +45,9 @@ RUN apk --purge add --no-cache \
 # && unzip chromedriver_linux64.zip \
 # && mv chromedriver /usr/local/bin
 RUN echo "Intalling extra PHP extensions:" \
- && apk --purge add --no-cache \
+ && echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+ && apk --progress --purge upgrade \
+ && apk --no-progress --purge add --no-cache \
  curl \
  libsodium \
  php7-ctype \
@@ -62,7 +64,8 @@ RUN echo "Intalling extra PHP extensions:" \
  php7-xmlwriter \
  && apk add --no-cache --virtual peclDeps autoconf g++ libsodium-dev make php7-dev \
  && pecl config-set php_ini /etc/php7/php.ini \
- && pecl install libsodium-2.0.11 \
+ && pecl install mongodb \
+ && pecl install libsodium \
  && pecl clear-cache \
  && apk del peclDeps
 

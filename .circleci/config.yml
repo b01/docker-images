@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            apk --no-cache upgrade --no-cache py-pip
+            apk add --no-cache py-pip
+            pip install docker-compose
+            rm -rf /var/cache/apk/*
+      - run:
+          name: Build application Docker image
+          command: |
+            ./build-all.sh
+      - run:
+          name: Run tests
+          command: |
+            docker-compose -f ./test-docker-compose.yml up
+            echo "TODO: Verify expected images are running."
+            docker-compose -f ./test-docker-compose.yml down
+      - deploy:
+          name: Push application Docker image
+          command: |
+            docker login -u $DKR_USER -p $DKR_PASS
+            ./push-all.sh
