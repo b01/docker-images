@@ -3,30 +3,34 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: docker:18.06.0-ce-git@sha256:fbcb27ecbc2e7ced9c53010b70d4b62b00d5466d255866b6187881c66ed81e1e
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 18.06.0-ce
+          docker_layer_caching: true
       - run:
           name: Install dependencies
           command: |
-            apk --no-cache upgrade --no-cache py-pip
-            apk add --no-cache py-pip
-            pip install docker-compose
+            echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+            apk --no-progress --no-cache upgrade
+            apk --no-progress add --no-cache py-pip bash py-pip@testing
+            pip --no-cache-dir install -U pip
+            pip --no-cache-dir -q install -U docker-compose
             rm -rf /var/cache/apk/*
       - run:
           name: Build application Docker image
           command: |
-            pwd
             ./build-all.sh
       - run:
           name: Run tests
           command: |
-            docker-compose -f ./test-docker-compose.yml up
-            echo "TODO: Verify expected images are running."
-            docker-compose -f ./test-docker-compose.yml down
+            docker-compose up -d
+            chmod +x ./verify-expected-images-run.sh
+            ./verify-expected-images-run.sh
+            docker-compose down
       - deploy:
           name: Push application Docker image
           command: |
-            docker login -u $DKR_USER -p $DKR_PASS
+            echo $DKR_PASS | docker login -u $DKR_USER --password-stdin
             ./push-all.sh
