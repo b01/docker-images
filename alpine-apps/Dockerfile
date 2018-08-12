@@ -16,7 +16,6 @@ FROM khalifahks/alpine-php
 
 COPY rebased-check.sh /usr/local/bin/
 COPY xdebug.ini /etc/php7/conf.d/
-COPY 00_sodium.ini /etc/php7/conf.d/
 
 # Install Applications
 # The integration test require Selenium, which requires Java
@@ -63,11 +62,12 @@ RUN echo "Intalling extra PHP extensions:" \
  php7-xmlreader \
  php7-xmlwriter \
  && apk add --no-cache --virtual peclDeps autoconf g++ libsodium-dev make php7-dev \
- && pecl config-set php_ini /etc/php7/php.ini \
+ && pear config-set php_ini /etc/php7/php.ini \
  && pecl install mongodb \
  && pecl install libsodium \
  && pecl clear-cache \
- && apk del peclDeps
+ && apk del peclDeps \
+ && php -m
 
 RUN echo "NPM install require" \
  && apk add python make g++
