@@ -14,8 +14,11 @@ FROM khalifahks/alpine-php
 # chromium-browser --no-sandbox --headless --disable-gpu --print-to-pdf https://www.chromestatus.com/
 # See more examples here: https://developers.google.com/web/updates/2017/04/headless-chrome
 
+USER root
+
 COPY rebased-check.sh /usr/local/bin/
 COPY xdebug.ini /etc/php7/conf.d/
+COPY ./php.ini /etc/php7/php.ini
 
 # Install Applications
 # The integration test require Selenium, which requires Java
@@ -62,11 +65,11 @@ RUN echo "Intalling extra PHP extensions:" \
  php7-xmlreader \
  php7-xmlwriter \
  && apk add --no-cache --virtual peclDeps autoconf g++ libsodium-dev make php7-dev \
- && pear config-set php_ini /etc/php7/php.ini \
  && pecl install mongodb \
  && pecl install libsodium \
  && pecl clear-cache \
  && apk del peclDeps \
+ && echo "PHP Extensions" \
  && php -m
 
 RUN echo "NPM install require" \
@@ -75,8 +78,8 @@ RUN echo "NPM install require" \
 WORKDIR /code
 
 # docker build --rm --no-cache -t khalifahks/alpine-apps ./alpine-apps
-# docker run -it --rm --name alpine-apps khalifahks/alpine-apps
+# docker run -it --rm --entrypoint sh khalifahks/alpine-apps
 # docker exec -it alpine-apps sh
 
-ENTRYPOINT ["php-fpm7"]
-CMD ["-c", "/etc/php7/php-fpm.conf"]
+#ENTRYPOINT ["php-fpm7"]
+#CMD []

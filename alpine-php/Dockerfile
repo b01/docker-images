@@ -18,19 +18,24 @@ RUN apk --progress --purge --no-cache upgrade \
     php7-phar \
     php7-session \
     php7-xml \
+ && pear config-set php_ini /etc/php7/php.ini \
  && apk add --no-cache --virtual dockerRunDeps curl \
  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
  && apk del dockerRunDeps \
  && apk --progress --purge --no-cache upgrade \
- && rm -rf /var/cache/apk/*
+ && rm -vrf /var/cache/apk/* \
+ && adduser -D php \
+ && mkdir -p /tmp/php/session \
+ && chown -R php:php /tmp/php/session
+
+USER php
 
 COPY ./php.ini /etc/php7/php.ini
 COPY ./php-fpm.conf /etc/php7/php-fpm.conf
 COPY ./www.conf /etc/php7/php-fpm.d/www.conf
 
 # docker build --rm --no-cache -t khalifahks/alpine-php ./alpine-php
-# docker run -it --rm --name alpine-php -h alpine_php khalifahks/alpine-php
-# docker exec -it alpine-php sh
+# docker run -it --rm --entrypoint sh khalifahks/alpine-php
 
 ENTRYPOINT ["php-fpm7"]
-CMD ["-c", "/etc/php7/php-fpm.conf"]
+CMD ["--fpm-config", "/etc/php7/php-fpm.conf", "-c", "/etc/php7/php.ini"]
