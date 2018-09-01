@@ -30,5 +30,4 @@ RUN apk --purge add --no-cache \
 # docker exec -it alpine-cci sh
 
 ENTRYPOINT []
-#CMD ["start-servers.sh"]
-CMD []
+CMD ["start-servers.sh"]

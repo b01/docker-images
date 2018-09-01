@@ -8,72 +8,85 @@ FROM khalifahks/alpine-php
 # These links helped a lot:
 # http://ithubinfo.blogspot.com/2013/11/how-to-install-and-configure-xvfb-in.html
 # https://linuxmeerkat.wordpress.com/2014/10/17/running-a-gui-application-in-a-docker-container/amp/
-
-# Use to test if chrome is working
-# chromium-browser --no-sandbox --headless --disable-gpu --dump-dom https://www.chromestatus.com/
-# chromium-browser --no-sandbox --headless --disable-gpu --print-to-pdf https://www.chromestatus.com/
-# See more examples here: https://developers.google.com/web/updates/2017/04/headless-chrome
-
-USER root
+# Xvfb
+#   https://blog.bj13.us/2016/06/11/install-a-headless-selenium-server-in-an-alpine-linux-container.html
+# Firefox
+#   https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Headless_mode
+# Chrome
+#   Use to test if chrome is working
+#   chromium-browser --no-sandbox --headless --disable-gpu --dump-dom https://www.chromestatus.com/
+#   chromium-browser --no-sandbox --headless --disable-gpu --print-to-pdf https://www.chromestatus.com/
+#   See more examples here: https://developers.google.com/web/updates/2017/04/headless-chrome
 
 COPY rebased-check.sh /usr/local/bin/
 COPY xdebug.ini /etc/php7/conf.d/
-COPY ./php.ini /etc/php7/php.ini
+COPY add-hosts.sh /usr/local/bin/
+COPY start.sh /usr/local/bin/
 
+# Update system
 # Install Applications
 # The integration test require Selenium, which requires Java
 # Install browser drivers.
-RUN apk --purge add --no-cache \
-    tar \
-    chromium \
+RUN apk --progress --purge --no-cache upgrade \
+ && apk --no-progress --purge --no-cache add --upgrade \
+    bash \
+    curl \
     dbus-x11 \
     git \
     nodejs \
     nodejs-npm \
     openjdk8 \
     openssh \
+    tar \
     xvfb \
     yarn \
  && echo "export CLICOLOR=1" >> /root/.bashrc \
  && echo 'export GREP_OPTIONS="--color=auto --exclude-dir=.git --exclude-dir=.idea"' >> /root/.bashrc \
- && chmod +x /usr/local/bin/rebased-check.sh \
+ && chmod a+x /usr/local/bin/rebased-check.sh \
+ && chmod a+x /usr/local/bin/add-hosts.sh \
+ && chmod a+x /usr/local/bin/start.sh \
  && mkdir -p /code \
  && chown root:root /code
 
-#RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz \
-# && tar -xvzf geckodriver-v0.20.1-linux64.tar.gz \
-# && mv geckodriver /usr/local/bin \
-# && wget https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
-# && unzip chromedriver_linux64.zip \
-# && mv chromedriver /usr/local/bin
+# Install Firefox and its driver.
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+ && apk --progress --purge --no-cache upgrade \
+ && apk --no-progress --purge --no-cache add --upgrade \
+ firefox \
+ && curl -kLO https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz \
+ && tar -xvzf geckodriver-v0.20.1-linux64.tar.gz \
+ && mv geckodriver /usr/local/bin \
+ && chmod a+x /usr/local/bin/geckodriver
+
+# Install Chrome and its driver.
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+ && apk --progress --purge --no-cache upgrade \
+ && apk --no-progress --purge --no-cache add --upgrade \
+ chromium \
+ && curl -kLO https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
+ && unzip chromedriver_linux64.zip \
+ && mv chromedriver /usr/local/bin \
+ && chmod a+x /usr/local/bin/chromedriver
+
 RUN echo "Intalling extra PHP extensions:" \
  && echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk --progress --purge upgrade \
  && apk --no-progress --purge add --no-cache \
- curl \
- libsodium \
  php7-ctype \
  php7-dom \
  php7-gd \
- php7-mbstring \
  php7-memcached \
- php7-pdo \
  php7-simplexml \
  php7-soap \
  php7-tokenizer \
  php7-xdebug \
- php7-xmlreader \
- php7-xmlwriter \
- && apk add --no-cache --virtual peclDeps autoconf g++ libsodium-dev make php7-dev \
+ php7-xml \
+ && apk add --no-cache --virtual peclDeps autoconf g++ make php7-dev \
  && pecl install mongodb \
- && pecl install libsodium \
  && pecl clear-cache \
  && apk del peclDeps \
  && echo "PHP Extensions" \
  && php -m
-
-RUN echo "NPM install require" \
- && apk add python make g++
 
 WORKDIR /code
 
@@ -81,5 +94,4 @@ WORKDIR /code
 # docker run -it --rm --entrypoint sh khalifahks/alpine-apps
 # docker exec -it alpine-apps sh
 
-#ENTRYPOINT ["php-fpm7"]
-#CMD []
+# WIll inherit the entrypoint and cmd options from image it extends.
