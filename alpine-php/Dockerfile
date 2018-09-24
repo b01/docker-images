@@ -27,7 +27,7 @@ RUN apk --progress --purge --no-cache upgrade \
     php7-xmlwriter \
  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
  && apk --progress --purge --no-cache upgrade \
- && rm -vrf /var/cache/apk/* \
+ && rm -vrf /var/cache/apk/*
 
 RUN addgroup -S phpfpm \
  && adduser -D phpfpmuser \

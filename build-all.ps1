@@ -10,7 +10,7 @@ docker build --rm --no-cache -t khalifahks/alpine-php ./alpine-php
 
 docker build --rm --no-cache -t khalifahks/alpine-apps ./alpine-apps
 
-docker build --rm --no-cache -t khalifahks/alpine-cci cci
+docker build --rm --no-cache -t khalifahks/alpine-cci ./alpine-cci
 
 docker build --rm --no-cache -t khalifahks/alpine-mongodb ./alpine-mongodb
 
