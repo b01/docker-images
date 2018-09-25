@@ -1,9 +1,13 @@
-#!/bin/sh -e
+#!/bin/sh
 
-echo "0 2 * * * /backup-mongodb.sh" > tmpcron
+set -e
 
-echo "0 5 * * * /truncate-mongodb-backups.sh" >> tmpcron
+echo "10 * * * * backup-mongodb.sh" > tmpcron
+
+echo "15 * * * * truncate-mongodb-backups.sh" >> tmpcron
 
 crontab tmpcron
 
 rm tmpcron
+
+crontab -l

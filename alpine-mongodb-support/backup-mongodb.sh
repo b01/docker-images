@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 
 mongodump -h $MONGO_HOST -u $MONGO_USER -p $MONGO_PASS --authenticationDatabase $MONGO_ADMIN_DB

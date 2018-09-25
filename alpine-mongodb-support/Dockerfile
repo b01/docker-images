@@ -3,6 +3,7 @@ FROM alpine:edge
 
 # References:
 # https://github.com/reviewninja/docker-mongo-backup
+# http://www.adminschoice.com/crontab-quick-reference
 
 # Install MongoDB tools and crond.
 RUN apk --update add --no-cache \
@@ -35,8 +36,7 @@ RUN chmod +x /usr/local/bin/backup-mongodb.sh \
 RUN add-mongodb-cron-job.sh
 
 # docker build --rm --no-cache -t khalifahks/alpine-mongodb-support ./alpine-mongodb-support
-# docker run --rm --mount 'src=mongoData,dst=/var/lib/mongodb' --mount 'src=mongoLog,dst=/var/log/mongodb' --name alpine-mongodb-support -h alpine_mongodb_support khalifahks/alpine-mongodb-support
-# docker exec -it alpine-mongodb-support sh
+# docker run --entrypoint=sh --rm --mount 'src=mongoData,dst=/var/lib/mongodb' --mount 'src=mongoLog,dst=/var/log/mongodb' --name alpine-mongodb-support -h alpine_mongodb_support khalifahks/alpine-mongodb-support
 
 ENTRYPOINT ["crond"]
 

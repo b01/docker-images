@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Build all the images. The order matters for app containers.
 docker build --rm --no-cache -t khalifahks/alpine-nginx ./alpine-nginx
