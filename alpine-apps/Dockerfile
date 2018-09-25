@@ -59,14 +59,14 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
  && chmod a+x /usr/local/bin/geckodriver
 
 # Install Chrome and its driver.
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
- && apk --progress --purge --no-cache upgrade \
- && apk --no-progress --purge --no-cache add --upgrade \
- chromium \
- && curl -kLO https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
- && unzip chromedriver_linux64.zip \
- && mv chromedriver /usr/local/bin \
- && chmod a+x /usr/local/bin/chromedriver
+#RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+# && apk --progress --purge --no-cache upgrade \
+# && apk --no-progress --purge --no-cache add --upgrade \
+# chromium \
+# && curl -kLO https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip \
+# && unzip chromedriver_linux64.zip \
+# && mv chromedriver /usr/local/bin \
+# && chmod a+x /usr/local/bin/chromedriver
 
 RUN echo "Intalling extra PHP extensions:" \
  && echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
@@ -76,22 +76,16 @@ RUN echo "Intalling extra PHP extensions:" \
  php7-dom \
  php7-gd \
  php7-memcached \
+ php7-mongodb \
  php7-simplexml \
  php7-soap \
  php7-tokenizer \
  php7-xdebug \
- php7-xml \
- && apk add --no-cache --virtual peclDeps autoconf g++ make php7-dev \
- && pecl install mongodb \
- && pecl clear-cache \
- && apk del peclDeps \
- && echo "PHP Extensions" \
- && php -m
+ php7-xml
 
 WORKDIR /code
 
 # docker build --rm --no-cache -t khalifahks/alpine-apps ./alpine-apps
-# docker run -it --rm --entrypoint sh khalifahks/alpine-apps
-# docker exec -it alpine-apps sh
+# docker run --entrypoint=sh -it --rm --entrypoint sh khalifahks/alpine-apps
 
 # WIll inherit the entrypoint and cmd options from image it extends.
