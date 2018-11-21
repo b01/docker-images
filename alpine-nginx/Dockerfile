@@ -2,8 +2,8 @@ FROM nginx:1-alpine
 
 # Add a custom nginx config
 COPY ./custom-nginx.conf /etc/nginx/
-COPY ./generate-self-signed-cert.sh /bin/generate-self-signed-cert.sh
-COPY ./generate-named-ssl-cert.sh /bin/generate-named-ssl-cert.sh
+COPY ./generate-self-signed-cert.sh /bin/
+COPY ./generate-named-ssl-cert.sh /bin/
 
 # Install some dependencies.
 RUN apk --update add --no-cache openssl \

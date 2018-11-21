@@ -1,4 +1,6 @@
-#!/bin/sh -e
+#!/bin/sh
+
+set -e
 
 cd "${MONGO_DKR_BKUP_DIR}"
 
