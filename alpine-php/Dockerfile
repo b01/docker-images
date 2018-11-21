@@ -3,9 +3,12 @@ FROM alpine:edge
 # References:
 # https://github.com/docker-library/docs/blob/master/php/README.md
 
+COPY get-composer.sh ./
+
 # Install the PHP extensions.
 # Downloand PHP composer.
-RUN apk --progress --purge --no-cache upgrade \
+RUN chmod +x ./get-composer.sh \
+ && apk --progress --purge --no-cache upgrade \
  && apk --no-progress --purge --no-cache add --upgrade \
     bash \
     curl \
@@ -23,11 +26,17 @@ RUN apk --progress --purge --no-cache upgrade \
     php7-phar \
     php7-session \
     php7-sodium \
+    php7-tokenizer \
     php7-xmlreader \
     php7-xmlwriter \
- && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+ && ./get-composer.sh \
  && apk --progress --purge --no-cache upgrade \
- && rm -vrf /var/cache/apk/*
+ && rm -vrf /var/cache/apk/* \
+ && rm ./get-composer.sh \
+ && composer -V \
+ && curl http://get.sensiolabs.org/sami.phar -o /usr/local/bin/sami.phar \
+ && chmod +x /usr/local/bin/sami.phar \
+ && sami.phar -V
 
 RUN addgroup -S phpfpm \
  && adduser -D phpfpmuser \
