@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:edge as base
 
 # References:
 # https://github.com/docker-library/docs/blob/master/php/README.md
@@ -50,7 +50,17 @@ COPY php-fpm.conf /etc/php7/
 COPY www.conf /etc/php7/php-fpm.d/
 
 # docker build --rm --no-cache -t khalifahks/alpine-php ./alpine-php
+# docker build --rm --no-cache -t khalifahks/alpine-php --target=base ./alpine-php
 # docker run -it --rm --entrypoint sh khalifahks/alpine-php
 
 ENTRYPOINT ["php-fpm7"]
 CMD ["--fpm-config", "/etc/php7/php-fpm.conf", "-c", "/etc/php7/php.ini"]
+
+FROM base as cci
+
+COPY xdebug.ini /etc/php7/conf.d/
+
+RUN apk --no-progress --purge --no-cache add \
+    openssh \
+    git \
+    php7-xdebug
