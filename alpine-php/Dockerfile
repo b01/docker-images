@@ -25,6 +25,7 @@ RUN chmod +x ./get-composer.sh \
     php7-pear \
     php7-phar \
     php7-session \
+    php7-simplexml \
     php7-sodium \
     php7-tokenizer \
     php7-xmlreader \

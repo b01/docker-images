@@ -77,7 +77,6 @@ RUN echo "Intalling extra PHP extensions:" \
  php7-gd \
  php7-memcached \
  php7-mongodb \
- php7-simplexml \
  php7-soap \
  php7-tokenizer \
  php7-xdebug \
