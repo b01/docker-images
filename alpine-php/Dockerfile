@@ -30,6 +30,7 @@ RUN chmod +x ./get-composer.sh \
     php7-tokenizer \
     php7-xmlreader \
     php7-xmlwriter \
+ && pecl config-set php_ini /etc/php.ini \
  && ./get-composer.sh \
  && apk --progress --purge --no-cache upgrade \
  && rm -vrf /var/cache/apk/* \

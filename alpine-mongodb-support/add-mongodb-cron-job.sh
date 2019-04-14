@@ -8,6 +8,6 @@ echo "15 * * * * truncate-mongodb-backups.sh" >> tmpcron
 
 crontab tmpcron
 
-rm tmpcron
+rm -rf tmpcron
 
 crontab -l

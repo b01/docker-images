@@ -3,7 +3,7 @@
 ## Description
 Rolling backups of a MongoDB instance over x amount of days.
 
-Just pass the environment variable MONGO_BAKUP_DAYS when starting a container with this image.
+Just pass the environment variable MONGO_NUM_BKUPS when starting a container with this image.
 
 This is assuming another container is running MongoDB with external volumes, one for data and another for logging.
 The names of these containers should not matter since you will link 
