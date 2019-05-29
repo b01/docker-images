@@ -2,6 +2,10 @@
 
 set -e
 
+echo ""
+echo "Truncate Script: Limiting MongoDB backups to ${MONGO_NUM_BKUPS}"
+echo ""
+
 cd "${MONGO_DKR_BKUP_DIR}"
 
 # Get a sorted list of backup files in the backup directory.
@@ -20,7 +24,7 @@ while read line; do
 
     if [ -n "${file}" ] && [ $i -gt $MONGO_NUM_BKUPS ]; then
         echo "removing backup \"${file}\""
-        rm -v "${file}"
+        rm -fv "${file}"
 
         if [ ! -f "${file}" ]; then
             echo "removed backup ${file} at ${TIMESTAMP}" >> "${MONGO_DKR_BKUP_DIR}"/backup.log
@@ -28,4 +32,4 @@ while read line; do
     fi
 done < "${truncateFile}"
 
-rm "${truncateFile}"
+rm -rf "${truncateFile}"

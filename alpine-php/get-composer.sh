@@ -20,5 +20,5 @@ fi
 
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer --quiet
 RESULT=$?
-rm composer-setup.php
+rm -rf composer-setup.php
 exit $RESULT

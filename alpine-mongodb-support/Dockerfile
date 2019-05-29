@@ -6,8 +6,11 @@ FROM alpine:3.9
 # http://www.adminschoice.com/crontab-quick-reference
 
 # Install MongoDB tools and crond.
-RUN apk --update add --no-cache \
- mongodb-tools
+RUN apk --progress --purge --no-cache upgrade \
+ && apk --no-progress --purge --no-cache add --upgrade \
+    mongodb-tools \
+ && apk --progress --purge --no-cache upgrade \
+ && rm -vrf /var/cache/apk/*
 
 ENV MONGO_DKR_DATA_DIR /var/lib/mongodb
 ENV MONGO_DKR_BKUP_DIR /var/lib/mongodb-backup

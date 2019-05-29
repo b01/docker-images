@@ -46,17 +46,29 @@ RUN apk --progress --purge --no-cache upgrade \
  && chmod a+x /usr/local/bin/add-hosts.sh \
  && chmod a+x /usr/local/bin/start.sh \
  && mkdir -p /code \
- && chown root:root /code
-
-# Install Firefox and its driver.
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+ && chown root:root /code \
  && apk --progress --purge --no-cache upgrade \
+ && rm -vrf /var/cache/apk/*
+
+RUN echo "@edgemain http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
+ && echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk --no-progress --purge --no-cache add --upgrade \
- firefox \
+    icu-libs@edgemain \
+    firefox@testing \
+    php7-ctype \
+    php7-dom \
+    php7-gd \
+    php7-memcached \
+    php7-mongodb \
+    php7-soap \
+    php7-xdebug \
+    php7-xml \
  && curl -kLO https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz \
  && tar -xvzf geckodriver-v0.20.1-linux64.tar.gz \
  && mv geckodriver /usr/local/bin \
- && chmod a+x /usr/local/bin/geckodriver
+ && chmod a+x /usr/local/bin/geckodriver \
+ && apk --progress --purge --no-cache upgrade \
+ && rm -vrf /var/cache/apk/*
 
 # Install Chrome and its driver.
 #RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
@@ -67,20 +79,6 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
 # && unzip chromedriver_linux64.zip \
 # && mv chromedriver /usr/local/bin \
 # && chmod a+x /usr/local/bin/chromedriver
-
-RUN echo "Intalling extra PHP extensions:" \
- && echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
- && apk --progress --purge upgrade \
- && apk --no-progress --purge add --no-cache \
- php7-ctype \
- php7-dom \
- php7-gd \
- php7-memcached \
- php7-mongodb \
- php7-soap \
- php7-tokenizer \
- php7-xdebug \
- php7-xml
 
 WORKDIR /code
 

@@ -2,6 +2,10 @@
 
 set -e
 
+echo ""
+echo "Backup Script"
+echo ""
+
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 
 mongodump --version

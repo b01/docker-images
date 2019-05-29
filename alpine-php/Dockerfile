@@ -1,16 +1,14 @@
-FROM alpine:edge as base
+FROM alpine:3.9 as base
 
 # References:
 # https://github.com/docker-library/docs/blob/master/php/README.md
 
 COPY get-composer.sh ./
 
-# Install the PHP extensions.
-# Downloand PHP composer.
-RUN chmod +x ./get-composer.sh \
- && apk --progress --purge --no-cache upgrade \
+# 1. Install the PHP and extensions.
+# 2. Downloand PHP composer.
+RUN apk --progress --purge --no-cache upgrade \
  && apk --no-progress --purge --no-cache add --upgrade \
-    bash \
     curl \
     php7 \
     php7-cgi \
@@ -22,7 +20,6 @@ RUN chmod +x ./get-composer.sh \
     php7-mcrypt \
     php7-openssl \
     php7-pdo \
-    php7-pear \
     php7-phar \
     php7-session \
     php7-simplexml \
@@ -30,11 +27,11 @@ RUN chmod +x ./get-composer.sh \
     php7-tokenizer \
     php7-xmlreader \
     php7-xmlwriter \
- && pecl config-set php_ini /etc/php.ini \
+ && chmod +x ./get-composer.sh \
  && ./get-composer.sh \
  && apk --progress --purge --no-cache upgrade \
  && rm -vrf /var/cache/apk/* \
- && rm ./get-composer.sh \
+ && rm -f ./get-composer.sh \
  && composer -V \
  && curl http://get.sensiolabs.org/sami.phar -o /usr/local/bin/sami.phar \
  && chmod +x /usr/local/bin/sami.phar \

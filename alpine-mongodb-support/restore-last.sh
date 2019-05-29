@@ -2,6 +2,10 @@
 
 set -e
 
+echo ""
+echo "Restore Script"
+echo ""
+
 cd "${MONGO_DKR_BKUP_DIR}"
 
 restoreDir="${MONGO_DKR_BKUP_DIR}/restore"

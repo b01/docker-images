@@ -9,7 +9,8 @@ COPY watch-servers.sh /usr/local/bin/watch-servers.sh
 COPY ./php-fpm.conf /etc/php7/php-fpm.conf
 
 # Install some dependencies.
-RUN apk --purge add --no-cache \
+RUN apk --progress --purge --no-cache upgrade \
+ && apk --no-progress --purge --no-cache add --upgrade \
     openssl \
     nginx \
  && mkdir -p /etc/nginx/conf-docker.d && chown root:root /etc/nginx/conf-docker.d \
@@ -17,7 +18,9 @@ RUN apk --purge add --no-cache \
  && chmod +x /usr/local/bin/generate-named-ssl-cert.sh \
  && chmod +x /usr/local/bin/start-servers.sh \
  && generate-self-signed-cert.sh \
- && nginx -v
+ && nginx -v \
+ && apk --progress --purge --no-cache upgrade \
+ && rm -vrf /var/cache/apk/*
 
 # && ln -sf /dev/stdout /var/log/nginx/access.log \
 # && ln -sf /dev/stderr /var/log/nginx/error.log \
