@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.10
 # Provides Mongo DB as a service.
 # You MUST view the log output when you first run this image. The reason is that a root account will be generated and displayed, but only the first time the image is run. Once the container is restarted it will NOT be displayed again. However you can recover it by:
 # 1. Run the image and log into the container and restart the MongoDB server without authentication enabled.

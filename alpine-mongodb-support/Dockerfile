@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.10
 # Provides backup support for a Mongodb instance running in a container.
 
 # References:
@@ -12,8 +12,7 @@ RUN apk --progress --purge --no-cache upgrade \
  && apk --progress --purge --no-cache upgrade \
  && rm -vrf /var/cache/apk/*
 
-ENV MONGO_DKR_DATA_DIR /var/lib/mongodb
-ENV MONGO_DKR_BKUP_DIR /var/lib/mongodb-backup
+ENV MONGO_DKR_BKUP_DIR '/var/lib/mongodb-backup'
 ENV MONGO_NUM_BKUPS 10
 ENV MONGO_HOST 'localhost'
 ENV MONGO_USER ''
@@ -21,10 +20,7 @@ ENV MONGO_PASS ''
 ENV MONGO_ADMIN_DB admin
 ENV MONGO_RUN_PID_FILE '/var/run/mongodb/mongod.pid'
 
-VOLUME $MONGO_DKR_DATA_DIR
 VOLUME $MONGO_DKR_BKUP_DIR
-
-WORKDIR $MONGO_DKR_DATA_DIR
 
 COPY backup-mongodb.sh /usr/local/bin/
 COPY truncate-mongodb-backups.sh /usr/local/bin/
