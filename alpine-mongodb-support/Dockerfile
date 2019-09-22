@@ -47,4 +47,4 @@ RUN chmod +x /usr/local/bin/backup-mongodb.sh \
 
 ENTRYPOINT [ "tini", "--" ]
 
-CMD [ "crond", "-f" ]
+CMD [ "crond", "start", "-f" ]
