@@ -1,0 +1,2 @@
+10 * * * * backup-mongodb.sh
+15 * * * * truncate-mongodb-backups.sh
