@@ -1,4 +1,4 @@
-FROM alpine:3.9 as base
+FROM alpine:3.10 as base
 
 # References:
 # https://github.com/docker-library/docs/blob/master/php/README.md

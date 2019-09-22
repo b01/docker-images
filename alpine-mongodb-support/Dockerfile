@@ -3,17 +3,18 @@ FROM alpine:3.10
 
 RUN apk --progress --purge --no-cache upgrade \
  && apk --no-progress --purge --no-cache add --upgrade \
-    tini \
  && apk --progress --purge --no-cache upgrade \
  && rm -vrf /var/cache/apk/*
 
 # ---- Install MongoDB tools since non in Alpine packages.
 RUN apk --no-progress --purge --no-cache add --upgrade --virtual buildtools \
     bash \
+    cyrus-sasl-dev \
     git \
     go \
     libc-dev \
     libpcap-dev \
+    openssl-dev \
     perl \
  && apk --progress --purge --no-cache upgrade \
  && go version \
@@ -22,7 +23,7 @@ RUN apk --no-progress --purge --no-cache add --upgrade --virtual buildtools \
  && cd "${GOROOT}"/src/github.com/mongodb \
  && git clone https://github.com/mongodb/mongo-tools.git \
  && cd mongo-tools \
- && ./build.sh \
+ && ./build.sh ssl sasl \
  && cp "${GOROOT}"/src/github.com/mongodb/mongo-tools/bin/* /usr/local/bin/ \
  && rm -rf "${GOROOT}"/src \
  && apk del buildtools \
@@ -43,8 +44,9 @@ COPY copy/. /
 RUN chmod +x /usr/local/bin/backup-mongodb.sh \
  && chmod +x /usr/local/bin/truncate-mongodb-backups.sh \
  && chmod +x /usr/local/bin/restore-last.sh \
+ && chmod +x /usr/local/bin/start.sh \
  && crontab /crontabs/backup-crontab.txt
 
-ENTRYPOINT [ "tini", "--" ]
+ENTRYPOINT [ "sh" ]
 
-CMD [ "crond", "start", "-f" ]
+CMD [ "/usr/local/bin/start.sh" ]
