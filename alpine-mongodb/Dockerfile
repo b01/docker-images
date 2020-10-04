@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM alpine:3.12
 # Provides Mongo DB as a service.
 # You MUST view the log output when you first run this image. The reason is that a root account will be generated and displayed, but only the first time the image is run. Once the container is restarted it will NOT be displayed again. However you can recover it by:
 # 1. Run the image and log into the container and restart the MongoDB server without authentication enabled.
@@ -12,9 +12,11 @@ FROM alpine:3.10
 # https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#install-mongodb-community-edition
 
 # Install MongoDB.
-RUN apk --progress --purge --no-cache upgrade \
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/main' >> /etc/apk/repositories \
+ && echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories \
+ && apk --progress --purge --no-cache upgrade \
  && apk --no-progress --purge --no-cache add --upgrade \
-    mongodb \
+    mongodb yaml-cpp=0.6.2-r2 \
  && apk --progress --purge --no-cache upgrade \
  && rm -vrf /var/cache/apk/*
 
@@ -31,7 +33,8 @@ COPY start-mongod.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start-mongod.sh \
  && mkdir -p /run/mongodb \
  && chown mongodb:mongodb /run/mongodb \
- && ln -sf /dev/stderr "${MONGO_DKR_LOG_DIR}/mongod.log"
+ && ln -sf /dev/stderr "${MONGO_DKR_LOG_DIR}/mongod.log" \
+ && mongo -version
 
 USER mongodb
 
@@ -44,6 +47,7 @@ EXPOSE 27017
 # docker build --rm --no-cache -t khalifahks/alpine-mongodb ./alpine-mongodb
 # docker run --rm --mount 'src=mongoData,dst=/var/lib/mongodb' --mount 'src=mongoLog,dst=/var/log/mongodb' -p 27017:27017 --name alpine-mongodb -h alpine_mongodb khalifahks/alpine-mongodb
 # docker exec -it alpine-mongodb mongo
+# db.runCommand( { buildInfo: 1 } )
 
 ENTRYPOINT []
 CMD ["start-mongod.sh"]
