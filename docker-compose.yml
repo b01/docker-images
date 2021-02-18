@@ -2,7 +2,7 @@ version: '3'
 
 services:
 
-    nginx: # to connect use: docker exec -it alpine-mongodb bash
+    nginx: # to connect use: docker exec -it alpine-nginx sh
         container_name: 'alpine-nginx'
         image: 'khalifahks/alpine-nginx'
         networks:
@@ -10,7 +10,7 @@ services:
                 aliases:
                     - 'web_nginx'
 
-    memcached: # to connect use: docker exec -it alpine-mongodb bash
+    memcached: # to connect use: docker exec -it alpine-memcached sh
         container_name: 'alpine-memcached'
         image: 'khalifahks/alpine-memcached'
         networks:
@@ -18,7 +18,7 @@ services:
                 aliases:
                     - 'web_memcached'
 
-    apps: # to connect use: docker exec -it alpine-mongodb bash
+    apps: # to connect use: docker exec -it alpine-apps sh
         container_name: 'alpine-apps'
         image: 'khalifahks/alpine-apps'
         networks:
@@ -26,7 +26,7 @@ services:
                 aliases:
                     - 'web_apps'
 
-    cci: # to connect use: docker exec -it alpine-mongodb bash
+    cci: # to connect use: docker exec -it alpine-cci sh
         container_name: 'alpine-cci'
         image: 'khalifahks/alpine-cci'
         command: start-servers.sh
@@ -35,7 +35,7 @@ services:
                 aliases:
                     - 'web_cci'
 
-    mongodb: # to connect use: docker exec -it alpine-mongodb bash
+    mongodb: # to connect use: docker exec -it alpine-mongodb sh
         container_name: 'alpine-mongodb'
         image: 'khalifahks/alpine-mongodb'
         networks:
@@ -56,7 +56,7 @@ services:
             MONGO_DKR_LOG_DIR: '/var/log/mongodb'
             MONGO_DKR_BKUP_DIR: '/var/lib/mongodb-backup'
 
-    mongodbsupport: # to connect use: docker exec -it alpine-mongodb-support bash
+    mongodbsupport: # to connect use: docker exec -it alpine-mongodb-support sh
         container_name: 'alpine-mongodb-support'
         image: 'khalifahks/alpine-mongodb-support'
         depends_on:
