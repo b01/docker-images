@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+    nodejs_container: # to connect use: docker exec -it alpine-nodejs bash
+        container_name: 'alpine-nodejs'
+        image: 'khalifahks/alpine-nodejs'
+        build:
+            dockerfile: 'Dockerfile'
+            context: '.'
+        tty: true
