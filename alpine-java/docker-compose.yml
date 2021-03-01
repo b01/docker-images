@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-    # docker run -it --entrypoint sh --rm -v  "${PWS}/:/go/src/github.com/kohirens/go-gitter/" --name gitter go_gitter_app
     java: # to connect use: docker exec -it alpine-java bash
         container_name: 'alpine-java'
         image: 'khalifahks/alpine-java'
