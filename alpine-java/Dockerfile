@@ -34,4 +34,6 @@ RUN java -version
 
 ENTRYPOINT [ "java" ]
 
-# To test run: docker run -itd --entrypoint=sh khalifahks/alpine-java
+# To test run: docker run -t khalifahks/alpine-java -version
+# docker export <container-id> | docker import - khalifahks/alpine-java:exported
+# quick interative termnal: docker run -it --entrypoint=sh khalifahks/alpine-java sh
