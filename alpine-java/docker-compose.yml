@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-    java: # to connect use: docker exec -it alpine-java bash
+    java: # to connect use: docker exec -it alpine-java sh
         container_name: 'alpine-java'
         image: 'khalifahks/alpine-java'
         build:
