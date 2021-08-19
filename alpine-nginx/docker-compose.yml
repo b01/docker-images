@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+
+    nginx: # to connect use: docker exec -it alpine-nginx sh
+        build:
+            dockerfile: 'Dockerfile'
+            context: '.'
+        container_name: 'alpine-nginx'
+        image: 'khalifahks/alpine-nginx'
+        networks:
+            net_1:
+                aliases:
+                    - 'web_nginx'
+
+networks:
+    net_1:
