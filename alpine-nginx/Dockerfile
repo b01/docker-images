@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM alpine:3.14
 
 # Add a custom nginx config
 COPY ./generate-self-signed-cert.sh /bin/
@@ -24,6 +24,7 @@ RUN apk -q --progress --purge --no-cache upgrade \
  && rm -vrf /var/cache/apk/*
 
 COPY ./custom-nginx.conf /etc/nginx/
+COPY ./server.example.conf /etc/nginx/conf.d/default.conf
 
 # docker build --rm --no-cache -t khalifahks/alpine-nginx ./alpine-nginx
 # docker run -it --rm --label production_status=alpine-nginx --log-opt mode=non-blocking --name alpine-nginx -h alpine_nginx khalifahks/alpine-nginx
