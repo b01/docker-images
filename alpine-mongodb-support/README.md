@@ -1,33 +1,64 @@
-# Docker image to back up a running MongoDB instance
+# MongoDB Support
+
+Rolling backups of a database on a remote MongoDB instance
 
 ## Description
 
-Rolling backups of a MongoDB instance over x amount of days.
+This Docker image provides a container to perform a backup of a database
+on a remote MongoDB instance on a schedule.
 
 Just pass the environment variable MONGO_NUM_BKUPS when starting a container with this image.
 
-This is assuming another container is running MongoDB with external volumes, one for data and another for logging.
-The names of these containers should not matter since you will link
-via "named" volumes. See below.
+This was originally developed for taking backups of a MongoDB database running
+in another container alongside it, for the purpose of development. So that a
+developer could have a small local copy of data running in a real MongoDB
+database, without having to share and program against ever-changing data.
+As the developer made changes, they would automatically be backed up and easily
+restored at anytime, even if the data volumes or container were removed.
 
-You should be able to use this with just about any container running a Mongo DB server. Just map the volumes of:
-1. The MongoDB data files directory.
+You should be able to use this with just about any container running a Mongo DB
+server. Just map the volumes of:
+1. The MongoDB data files directory, serves as a link to your MongoDB container.
 2. A volume mapped to your host computer where you want the backups stored.
+   Ensure you map the volumes to persistent storage.
 
-Number 1 serves as a link to your MongoDB container. While 3 servers as the link to download the backups to your
-host computer.
+## Tools
+
+A list of the MongoDB tools installed.
+
+* mongodump
+* mongoexport
+* mongofiles
+* mongoimport
+* mongorestore
+* mongostat
+* mongotop
+
+## Configuration
+
+Before starting up the container, adjust the environment variables for
+configuration.
+
+```shell
+MONGO_HOST: 'mongodb'
+MONGO_USER: 'circleci'
+MONGO_PASS: 'circleci123'
+MONGO_ADMIN_DB: 'admin'
+MONGO_DKR_DATA_DIR: '/var/lib/mongodb'
+MONGO_DKR_BKUP_DIR: '/var/log/mongodb'
+```
 
 ## How To Backup
 
 Backups are done automatically using a crond job.
 
-To backup manually
+### Manual Backup
+
+In case you need to.
 
 ```$xslt
 docker exec -it alpine-mongodb-support backup-mongodb.sh
 ```
-
-This method uses the credentials stored in the environment call.
 
 ## How to Restore
 
@@ -41,8 +72,13 @@ This method uses the credentials stored in the environment call.
 
 ## Build the Image and TestS
 
-`docker build --rm --no-cache -t khalifahks/alpine-mongodb-support ./alpine-mongodb-support`
-`docker run --rm --mount 'src=mongoData,dst=/var/lib/mongodb' --mount 'src=mongoLog,dst=/var/log/mongodb' --name alpine-mongodb-support -h alpine_mongodb_support khalifahks/alpine-mongodb-support`
+```shell
+docker build --rm --no-cache -t khalifahks/alpine-mongodb-support ./alpine-mongodb-support
+```
+
+```shell
+docker run --rm --mount 'src=mongoData,dst=/var/lib/mongodb' --mount 'src=mongoLog,dst=/var/log/mongodb' --name alpine-mongodb-support -h alpine_mongodb_support khalifahks/alpine-mongodb-support
+```
 
 ## References:
 
