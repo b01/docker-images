@@ -29,7 +29,7 @@ services:
     cci: # to connect use: docker exec -it alpine-cci sh
         container_name: 'alpine-cci'
         image: 'khalifahks/alpine-cci'
-        command: start-servers.sh
+        command: start.sh
         networks:
             net_1:
                 aliases:
