@@ -49,4 +49,5 @@ RUN curl -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sger
 
 #RUN objdump -p /usr/lib/libstdc\+\+.so.6
 
-ENTRYPOINT [ "sh" ]
+ENTRYPOINT [ ]
+CMD [ ]

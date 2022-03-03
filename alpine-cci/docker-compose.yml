@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+    container:
+        image: 'khalifahks/alpine-cci:${BUILD_VER:-dev}'
+        build:
+            dockerfile: 'Dockerfile'
+            context: '.'
+        command: start.sh
