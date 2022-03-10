@@ -10,22 +10,6 @@ services:
                 aliases:
                     - 'web_nginx'
 
-    memcached: # to connect use: docker exec -it alpine-memcached sh
-        container_name: 'alpine-memcached'
-        image: 'khalifahks/alpine-memcached'
-        networks:
-            net_1:
-                aliases:
-                    - 'web_memcached'
-
-    apps: # to connect use: docker exec -it alpine-apps sh
-        container_name: 'alpine-apps'
-        image: 'khalifahks/alpine-apps'
-        networks:
-            net_1:
-                aliases:
-                    - 'web_apps'
-
     cci: # to connect use: docker exec -it alpine-cci sh
         container_name: 'alpine-cci'
         image: 'khalifahks/alpine-cci'
