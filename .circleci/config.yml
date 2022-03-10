@@ -4,11 +4,11 @@ jobs:
     working_directory: ~/code
     docker:
       - image: docker:18.06.0-ce-git@sha256:fbcb27ecbc2e7ced9c53010b70d4b62b00d5466d255866b6187881c66ed81e1e
+    resource_class: small
     steps:
       - checkout
       - setup_remote_docker:
-          version: 18.06.0-ce
-          docker_layer_caching: true
+          version: 20.10.11
       - run:
           name: Install dependencies
           command: |
