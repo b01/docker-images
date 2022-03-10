@@ -1,14 +1,15 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
-cNames="alpine-nginx"
-cNames="${cNames} alpine-memcached"
-cNames="${cNames} alpine-apps"
-cNames="${cNames} alpine-cci"
-cNames="${cNames} alpine-mongodb"
-cNames="${cNames} alpine-mongodb-support"
+set -e
+
 missingContainers=""
 
-for name in $cNames
+cNames="alpine-nginx
+alpine-cci
+alpine-mongodb
+alpine-mongodb-support"
+
+for name in ${cNames}
 do
     containerId=$(docker ps -f "name=${name}" -f "status=running" -q)
 

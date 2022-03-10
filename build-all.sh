@@ -1,16 +1,16 @@
 #!/bin/sh
 
-# Build all the images. The order matters for app containers.
-docker build --rm --no-cache -t khalifahks/alpine-nginx ./alpine-nginx
+set -e
 
-docker build --rm --no-cache -t khalifahks/alpine-memcached ./alpine-memcached
+# Build all the images.
+dockerImages="alpine-nginx
+alpine-cci
+alpine-glibc
+alpine-mongodb
+alpine-mongodb-support"
 
-docker build --rm --no-cache -t khalifahks/alpine-php ./alpine-php
-
-docker build --rm --no-cache -t khalifahks/alpine-apps ./alpine-apps
-
-docker build --rm --no-cache -t khalifahks/alpine-cci ./alpine-cci
-
-docker build --rm --no-cache -t khalifahks/alpine-mongodb ./alpine-mongodb
-
-docker build --rm --no-cache -t khalifahks/alpine-mongodb-support ./alpine-mongodb-support
+for dockerImage in ${dockerImages}
+do
+    echo "Building ${dockerImage}"
+    docker build --rm --no-cache -t khalifahks/"${dockerImage}" ./"${dockerImage}"
+done
