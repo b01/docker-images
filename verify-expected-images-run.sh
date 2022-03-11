@@ -6,8 +6,8 @@ missingContainers=""
 
 cNames="alpine-nginx
 alpine-cci
-alpine-mongodb
-alpine-mongodb-support"
+alpine-mongodb"
+#alpine-mongodb-support"
 
 for name in ${cNames}
 do
