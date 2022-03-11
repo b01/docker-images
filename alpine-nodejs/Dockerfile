@@ -1,6 +1,6 @@
-FROM alpine:3.13
+FROM alpine:3.15
 
-ARG GLIB_VER='2.32-r0'
+ARG GLIB_VER='2.34-r0'
 ARG NODEJS_VER='v15.10.0'
 ARG NODEJS_DIST='linux-x64'
 

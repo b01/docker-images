@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:3.15
 
 # Add a custom nginx config
 COPY ./generate-self-signed-cert.sh /bin/
