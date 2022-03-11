@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 docker push khalifahks/alpine-nginx
 docker push khalifahks/alpine-cci
