@@ -26,6 +26,9 @@ server. Just map the volumes of:
 
 A list of the MongoDB tools installed.
 
+
+* [backup-mongodb.sh](/alpine-mongodb-support/copy/usr/local/bin/backup-mongodb.sh)
+* bsondump
 * mongodump
 * mongoexport
 * mongofiles
@@ -33,6 +36,9 @@ A list of the MongoDB tools installed.
 * mongorestore
 * mongostat
 * mongotop
+* [restore-last.sh](/alpine-mongodb-support/copy/usr/local/bin/restore-last.sh)
+* [start.sh](/alpine-mongodb-support/copy/usr/local/bin/start.sh)
+* [truncate-mongodb-backups.sh](/alpine-mongodb-support/copy/usr/local/bin/truncate-mongodb-backups.sh)
 
 ## Configuration
 
