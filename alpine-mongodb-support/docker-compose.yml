@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+
+    mongodb:
+        container_name: 'alpine-mongodb'
+        environment:
+            MONGO_HOST: 'mongodb'
+            MONGO_USER: 'circleci'
+            MONGO_PASS: 'circleci123'
+            MONGO_ADMIN_DB: 'admin'
+            MONGO_DKR_DATA_DIR: '${MONGO_DKR_DATA_DIR}'
+        image: 'khalifahks/alpine-mongodb'
+        networks:
+            net_1:
+                aliases:
+                    - 'mongodb'
+        ports:
+            - '27017:27017'
+        volumes:
+            - 'mongoData:${MONGO_DKR_DATA_DIR}'
+            - 'mongoLog:${MONGO_DKR_LOG_DIR}'
+
+    mongodbsupport: # to connect use: docker exec -it alpine-mongodb-support sh
+        build:
+            context: '.'
+            dockerfile: 'Dockerfile'
+        container_name: 'alpine-mongodb-support'
+        depends_on:
+            - 'mongodb'
+        env_file:
+            - '.env'
+        image: 'khalifahks/alpine-mongodb-support'
+        networks:
+            net_1:
+                aliases:
+                    - 'mongodb_support'
+        volumes:
+            - 'mongoData:${MONGO_DKR_DATA_DIR}'
+            - 'mongoLog:${MONGO_DKR_LOG_DIR}'
+            - '~/code/backup:${MONGO_DKR_BKUP_DIR}'
+        environment:
+            MONGO_HOST: 'mongodb'
+            MONGO_USER: 'circleci'
+            MONGO_PASS: 'circleci123'
+            MONGO_ADMIN_DB: 'admin'
+            MONGO_DKR_DATA_DIR: '${MONGO_DKR_DATA_DIR}'
+            MONGO_DKR_BKUP_DIR: '${MONGO_DKR_BKUP_DIR}'
+
+networks:
+    net_1:
+
+volumes:
+    mongoData:
+        external: true
+    mongoLog:
+        external: true
