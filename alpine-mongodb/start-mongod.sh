@@ -3,11 +3,15 @@
 shutd () {
     echo "Shutting down MongoDB..." >&2
     mongod --config /etc/mongod.conf --shutdown
-    exit
+    echo "done"
+    exit 0
 }
+
 trap 'shutd' SIGTERM
 
-printf "running as user " && whoami
+echo "Starting up..."
+
+printf "running as user %s\n" $(whoami)
 
 echo "start-mongod.sh  Pid=$$"
 
@@ -19,7 +23,7 @@ if [ -f "${ADD_USER_CMD}" ]; then
     rm -v $ADD_USER_CMD
 fi
 
-printf "starting mongod, all interaction with the server will output below:\n" && whoami
+printf "starting mongod as %s, all interaction with the server will output below:\n" $(whoami)
 
 # Start the mongo server in the foreground to keep the container running.
 exec mongod --config /etc/mongod.conf

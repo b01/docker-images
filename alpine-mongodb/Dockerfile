@@ -1,24 +1,50 @@
-FROM alpine:3.15
-# Provides Mongo DB as a service.
-# You MUST view the log output when you first run this image. The reason is that a root account will be generated and displayed, but only the first time the image is run. Once the container is restarted it will NOT be displayed again. However you can recover it by:
-# 1. Run the image and log into the container and restart the MongoDB server without authentication enabled.
-# 2. Delete the "/var/lib/mongo" volume and start the run the image again, in which case a new data file will be made and a new account generated.
-# For these reasons its especially important to backup the account once it is displayed and/or to replace/make additional accounts once you can successfully login.
-#
-# Its also a best practice to use a backup container to automate the backup process of your databases or data files. That should also include the logs since logs can be very helpful when there is a problem with the data. This image will place logs in the volume "/var/log/mongodb".
+FROM khalifahks/alpine-glibc:2.34-r0 AS build
 
-# References:
-# https://github.com/zokeber/docker-mongodb
-# https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#install-mongodb-community-edition
-
-# Install MongoDB.
-RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/main' >> /etc/apk/repositories \
- && echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories \
- && apk --progress --purge --no-cache upgrade \
+# Install MongoDB Build Requirements
+# see: https://github.com/mongodb/mongo/blob/master/docs/building.md
+# In order to build MongoDB, Python 3.7+ is required, and several Python modules must be installed.
+# Note: In order to compile C-based Python modules, you'll also need the Python and OpenSSL C headers.
+# Note: For C++ compilers that are newer than the supported version, the compiler may issue new warnings that cause
+#       MongoDB to fail to build since the build system treats compiler warnings as errors. To ignore the warnings,
+#       pass the switch --disable-warnings-as-errors to scons.
+# Requirments not mentioned in the MongoDB install docs:
+# * git, gcc, musl-dev (limits.h), linux-headers (version.h), g++, and xz-dev (lzma), curl
+RUN apk --progress --purge --no-cache upgrade \
  && apk --no-progress --purge --no-cache add --upgrade \
-    mongodb yaml-cpp=0.6.2-r2 \
+    curl-dev \
+    g++ \
+    gcc \
+    git \
+    libc-dev \
+    linux-headers \
+    musl-dev \
+    python3 \
+    python3-dev \
+    openssl-dev \
+    xz-dev \
  && apk --progress --purge --no-cache upgrade \
  && rm -vrf /var/cache/apk/*
+
+# Install Pytyon pip
+RUN cd /tmp \
+ && wget https://bootstrap.pypa.io/get-pip.py \
+ && python3 get-pip.py
+
+# Install MongoDB
+# Options are:
+# * install-mongod
+# * install-mongos
+# * install-mongo or install-shell
+# * install-servers (includes mongod and mongos)
+# * install-core (includes mongod, mongos, mongo)
+# * install-all
+ENV MONGODB_VER='5.0.6'
+
+RUN cd /tmp \
+ && git clone -b "r${MONGODB_VER}" --depth 1 https://github.com/mongodb/mongo.git
+RUN cd /tmp/mongo \
+ && python3 -m pip install --user -r etc/pip/compile-requirements.txt \
+ && python3 buildscripts/scons.py install-servers --disable-warnings-as-errors bits=64
 
 ENV MONGO_DKR_DATA_DIR '/var/lib/mongodb'
 ENV MONGO_DKR_LOG_DIR '/var/log/mongodb'
