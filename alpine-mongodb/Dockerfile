@@ -41,10 +41,12 @@ RUN cd /tmp \
 ENV MONGODB_VER='5.0.6'
 
 RUN cd /tmp \
- && git clone -b "r${MONGODB_VER}" --depth 1 https://github.com/mongodb/mongo.git
+ && git clone https://github.com/mongodb/mongo.git
+#RUN cd /tmp \
+# && git clone -b "r${MONGODB_VER}" --depth 1 https://github.com/mongodb/mongo.git
 RUN cd /tmp/mongo \
  && python3 -m pip install --user -r etc/pip/compile-requirements.txt \
- && python3 buildscripts/scons.py install-servers --disable-warnings-as-errors bits=64
+ && python3 buildscripts/scons.py install-mongod --disable-warnings-as-errors
 
 ENV MONGO_DKR_DATA_DIR '/var/lib/mongodb'
 ENV MONGO_DKR_LOG_DIR '/var/log/mongodb'
